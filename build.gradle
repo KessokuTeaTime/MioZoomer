@@ -1,100 +1,43 @@
 plugins {
-	id 'maven-publish'
-	alias libs.plugins.quilt.loom
-	alias libs.plugins.machete
+    id "architectury-plugin" version "3.4-SNAPSHOT"
+    id "dev.architectury.loom" version "1.4-SNAPSHOT" apply false
 }
 
-archivesBaseName = project.archives_base_name
-version = System.env.GITHUB_ACTIONS == 'true'
-	? "$project.version+${libs.versions.minecraft.get()}.github.$System.env.GITHUB_RUN_NUMBER"
-	: "$project.version+${libs.versions.minecraft.get()}"
-group = project.maven_group
-
-repositories {
-	mavenCentral()
-	maven { url 'https://maven.gegy.dev' }
-	maven { url 'https://maven.terraformersmc.com/releases/' }
-	maven { url 'https://jitpack.io' }
+architectury {
+    minecraft = rootProject.minecraft_version
 }
 
-// All the dependencies are declared at gradle/libs.version.toml and referenced with "libs.<id>"
-// See https://docs.gradle.org/current/userguide/platforms.html for information on how version catalogs work.
-dependencies {
-	// To change the versions, see the gradle.properties file
-	minecraft libs.minecraft
-	mappings variantOf(libs.quilt.mappings) { classifier 'intermediary-v2' }
-	modImplementation libs.quilt.loader
+subprojects {
+    apply plugin: "dev.architectury.loom"
 
-	modImplementation libs.quilted.fabric.api
-	modImplementation(libs.mod.menu) {
-		transitive = false
-	}
-	modImplementation libs.libzoomer
-	modImplementation(libs.spruceui) {
-		transitive = false
-	}
-	implementation libs.mixin.extras
-	annotationProcessor libs.mixin.extras
-
-	include libs.libzoomer
-	include libs.spruceui
-	include libs.mixin.extras
+    dependencies {
+        minecraft "com.mojang:minecraft:${rootProject.minecraft_version}"
+		//mappings "net.fabricmc:yarn:1.20.1+build.10:v2"
+        mappings "org.quiltmc:quilt-mappings:${rootProject.quilt_mappings}:intermediary-v2"
+    }
 }
 
-processResources {
-	inputs.property 'version', version
+allprojects {
+    apply plugin: "java"
+    apply plugin: "architectury-plugin"
+    apply plugin: "maven-publish"
 
-	// Oh, for building, do the switcharoo
-	filesMatching(['quilt.mod.json', 'fabric.mod.json']) {
-		expand 'version': version
-	}
-}
+    archivesBaseName = rootProject.archives_base_name
+    version = rootProject.mod_version
+    group = rootProject.maven_group
 
-tasks.withType(JavaCompile).configureEach {
-	it.options.encoding = 'UTF-8'
-	// Minecraft 1.18 (1.18-pre2) upwards uses Java 17.
-	it.options.release = 17
-}
+    repositories {
+		maven { url = "https://jitpack.io" }
+		maven { url = "https://api.modrinth.com/maven" }
+		maven { url = "https://maven.quiltmc.org/repository/release" }
+    }
 
-java {
-	// Still required by IDEs such as Eclipse and Visual Studio Code
-	sourceCompatibility = JavaVersion.VERSION_17
-	targetCompatibility = JavaVersion.VERSION_17
+    tasks.withType(JavaCompile) {
+        options.encoding = "UTF-8"
+        options.release = 17
+    }
 
-	// Loom will automatically attach sourcesJar to a RemapSourcesJar task and to the "build" task if it is present.
-	// If you remove this line, sources will not be generated.
-	withSourcesJar()
-
-	// If this mod is going to be a library, then it should also generate Javadocs in order to aid with developement.
-	// Uncomment this line to generate them.
-	// withJavadocJar()
-}
-
-jar {
-	from('LICENSE') {
-		rename { "${it}_${archivesBaseName}" }
-	}
-}
-
-
-machete {
-	// JSON minification isn't effective on this scale and sacrifices readability
-	json.enabled = false
-}
-
-// Configure the maven publication
-publishing {
-	publications {
-		mavenJava(MavenPublication) {
-			from components.java
-		}
-	}
-
-	// See https://docs.gradle.org/current/userguide/publishing_maven.html for information on how to set up publishing.
-	repositories {
-		// Add repositories to publish to here.
-		// Notice: This block does NOT have the same function as the block in the top level.
-		// The repositories here will be used for publishing your artifact, not for
-		// retrieving dependencies.
-	}
+    java {
+        withSourcesJar()
+    }
 }

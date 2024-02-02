@@ -1,20 +1,28 @@
-<img src="./src/main/resources/assets/ok_zoomer/icon.png" align="right" width="128px" alt="Ok Zoomer icon"/>
+<img src="./src/main/resources/assets/mio_zoomer/icon.png" align="right" width="128px" alt="Mio Zoomer icon"/>
 
-# Ok Zoomer
+# Mio Zoomer
 
-Ok Zoomer is a mod that adds a highly configurable zoom packed with tons of features!
+OK Zoomer unofficial architectury port.
 
-By default, an unique take on zooming is provided, however, by configuring this mod through Mod Menu or a file, the zoom can be adapted for your own purposes! Here's an example: want a cinematic camera while zooming? Enable it! Want to have a better control over it? Toggle it to the Multiplied mode and adjust the multiplier! Do you hate it but still want some grip on the zoom? Enable "Reduce Sensitivity"! On this mod, you are in charge of the zoom!
+Mio Zoomer is a mod that adds a configurable feature-packed zoom key, which allows for zooming. By default, the zoom key is bound to `C` with the zoom itself being different, with features like zoom scrolling, smooth transitions and reduced mouse sensitivity.
 
-For more information, see the [Modrinth page](https://modrinth.com/mod/ok-zoomer) or the [CurseForge one](https://www.curseforge.com/minecraft/mc-mods/ok-zoomer)
+However, this isn't the end of the story, because here, you are in charge of your own zoom! Through the config screen, which is accessible through either the `/mio_zoomer` client command or the Mod Menu, the zoom is completely configurable, and if the default behavior isn't exactly what you want, you can change the smallest details or even restore the OptiFine zoom with a press of a button!
+
+For more information, see the [Modrinth page](https://modrinth.com/mod/mio-zoomer) (SOON) or the [CurseForge page](https://www.curseforge.com/minecraft/mc-mods/mio-zoomer) (SOON)
+
+## Dependencies
+
+This mod requires the [Architectury API](https://modrinth.com/mod/architectury-api), [ZoomerLibrary](https://modrinth.com/mod/zoomerlibrary), [AzusaConfig]().
+
+[Mod Menu (Fabric side)](https://modrinth.com/mod/modmenu) is optional but it might be a more convenient way to access the config screen.
 
 ## Download
 
 This mod is available for download on the following services:
 
-- [Modrinth (recommended)](https://modrinth.com/mod/ok-zoomer)
-- [CurseForge](https://www.curseforge.com/minecraft/mc-mods/ok-zoomer)
-- [GitHub Releases (alternative)](https://github.com/EnnuiL/OkZoomer/releases)
+- [Modrinth (recommended)](https://modrinth.com/mod/mio-zoomer) (SOON)
+- [CurseForge](https://www.curseforge.com/minecraft/mc-mods/mio-zoomer) (SOON)
+- [GitHub Releases (alternative)](https://github.com/ThinkingStudios/MioZoomer/releases)
 
 ## License
 

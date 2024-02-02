@@ -1,0 +1,33 @@
+{
+  "schemaVersion": 1,
+  "id": "mio_zoomer",
+  "version": "${version}",
+  "name": "Mio Zoomer",
+  "description": "Adds a highly configurable zoom button. \nBy default, this mod provides its own take on zooming, however, with configuration, \nyou can drastically change the zoom with something more familiar or useful. \nThe zoom is yours!",
+  "authors": [
+    "TexTrue, Thinkingstudio, Ennui Langeweile"
+  ],
+  "contact": {
+    "homepage": "https://fabricmc.net/",
+    "sources": "https://github.com/FabricMC/fabric-example-mod"
+  },
+  "license": "MIT",
+  "icon": "icon.png",
+  "environment": "*",
+  "entrypoints": {
+    "client": [
+			"org.thinkingstudio.mio_zoomer.fabric.MioZoomerModFabric"
+    ],
+		"preLaunch": [
+			"org.thinkingstudio.mio_zoomer.fabric.MioZoomerPreLaunchModFabric"
+		]
+  },
+  "depends": {
+    "fabric": "*",
+    "minecraft": ">=1.20",
+    "architectury": "*"
+  },
+	"mixins": [
+		"mio_zoomer.common.mixins.json"
+	]
+}

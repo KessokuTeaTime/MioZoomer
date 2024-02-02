@@ -1,0 +1,55 @@
+modLoader = "javafml"
+loaderVersion = "[43,)"
+#issueTrackerURL = ""
+license = "MIT"
+
+[[mods]]
+modId = "mio_zoomer"
+version = "${version}"
+displayName = "Mio Zoomer"
+credits = "Ennui Langeweile"
+authors = "TexTrue, Thinkingstudio"
+description = '''
+OK Zoomer unofficial architectury port.
+
+Adds a highly configurable zoom button.
+By default, this mod provides its own take on zooming, however, with configuration,
+you can drastically change the zoom with something more familiar or useful.
+The zoom is yours!
+'''
+#logoFile = ""
+
+[[dependencies.mio_zoomer]]
+modId = "forge"
+mandatory = true
+versionRange = "[43,)"
+ordering = "NONE"
+side = "BOTH"
+
+[[dependencies.mio_zoomer]]
+modId = "minecraft"
+mandatory = true
+versionRange = "[1.20,)"
+ordering = "NONE"
+side = "BOTH"
+
+[[dependencies.mio_zoomer]]
+modId = "architectury"
+mandatory = true
+versionRange = "*"
+ordering = "AFTER"
+side = "BOTH"
+
+[[dependencies.mio_zoomer]]
+modId = "zoomerlibrary"
+mandatory = true
+versionRange = "*"
+ordering = "AFTER"
+side = "BOTH"
+
+[[dependencies.mio_zoomer]]
+modId = "azusa_config"
+mandatory = true
+versionRange = "*"
+ordering = "AFTER"
+side = "BOTH"
