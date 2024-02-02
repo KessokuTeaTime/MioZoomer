@@ -9,14 +9,14 @@ import net.minecraft.client.MinecraftClient;
 public class ApplyLoadOnceOptionsEvent {
 	public static void readyClient(MinecraftClient client) {
 		// uwu
-		if (MioZoomerConfigManager.PRINT_OWO_ON_START.value()) {
+		if (MioZoomerConfigManager.CONFIG.tweaks.print_owo_on_start.value()) {
 			OwoUtils.printOwo();
 		}
 
 		// This handles the unbinding of the "Save Toolbar Activator" key
-		if (MioZoomerConfigManager.UNBIND_CONFLICTING_KEY.value()) {
+		if (MioZoomerConfigManager.CONFIG.tweaks.unbind_conflicting_key.value()) {
 			ZoomUtils.unbindConflictingKey(client, false);
-			MioZoomerConfigManager.UNBIND_CONFLICTING_KEY.setValue(false, true);
+			MioZoomerConfigManager.CONFIG.tweaks.unbind_conflicting_key.setValue(false, true);
 		}
 	}
 }

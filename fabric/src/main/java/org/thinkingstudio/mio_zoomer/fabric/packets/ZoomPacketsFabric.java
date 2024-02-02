@@ -110,7 +110,7 @@ public class ZoomPacketsFabric {
 			client.execute(() -> {
 				ZoomUtils.LOGGER.info(String.format("[Mio Zoomer] This server has the following spyglass restrictions: Require Item: %s, Replace Zoom: %s", requireItem, replaceZoom));
 
-				MioZoomerConfigManager.SPYGLASS_DEPENDENCY.setOverride(requireItem
+				MioZoomerConfigManager.CONFIG.features.spyglass_dependency.setOverride(requireItem
 					? (replaceZoom ? ConfigEnums.SpyglassDependency.BOTH : ConfigEnums.SpyglassDependency.REQUIRE_ITEM)
 					: (replaceZoom ? ConfigEnums.SpyglassDependency.REPLACE_ZOOM : null));
 				ZoomPackets.spyglassDependency = true;
@@ -126,7 +126,7 @@ public class ZoomPacketsFabric {
 		ClientPlayNetworking.registerGlobalReceiver(ZoomPackets.FORCE_SPYGLASS_OVERLAY_PACKET_ID, (client, handler, buf, sender) -> {
 			client.execute(() -> {
 				ZoomUtils.LOGGER.info(String.format("[Mio Zoomer] This server has imposed a spyglass overlay on the zoom"));
-				MioZoomerConfigManager.ZOOM_OVERLAY.setOverride(ConfigEnums.ZoomOverlays.SPYGLASS);
+				MioZoomerConfigManager.CONFIG.features.zoom_overlay.setOverride(ConfigEnums.ZoomOverlays.SPYGLASS);
 				ZoomPackets.spyglassOverlay = true;
 				ZoomPackets.checkRestrictions();
 			});

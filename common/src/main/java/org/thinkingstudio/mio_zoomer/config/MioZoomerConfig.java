@@ -1,13 +1,14 @@
 package org.thinkingstudio.mio_zoomer.config;
 
-import ho.artisan.azusa_config.shadow.quiltconfig.api.WrappedConfig;
+import ho.artisan.azusa_config.shadow.quiltconfig.api.ReflectiveConfig;
 import ho.artisan.azusa_config.shadow.quiltconfig.api.annotations.Comment;
 import ho.artisan.azusa_config.shadow.quiltconfig.api.annotations.FloatRange;
 import ho.artisan.azusa_config.shadow.quiltconfig.api.annotations.IntegerRange;
 
+import ho.artisan.azusa_config.shadow.quiltconfig.api.values.TrackedValue;
 import org.thinkingstudio.mio_zoomer.config.metadata.WidgetSize;
 
-public class MioZoomerConfig extends WrappedConfig {
+public class MioZoomerConfig extends ReflectiveConfig {
 	@Comment("Contains the main zoom features.")
 	public final FeaturesConfig features = new FeaturesConfig();
 
@@ -17,7 +18,7 @@ public class MioZoomerConfig extends WrappedConfig {
 	@Comment("Contains options that are unlikely to be changed from the defaults.")
 	public final TweaksConfig tweaks = new TweaksConfig();
 
-	public class FeaturesConfig implements Section {
+	public static class FeaturesConfig extends Section {
 		@WidgetSize(WidgetSize.Size.HALF)
 		@Comment("""
 			Defines the cinematic camera while zooming.
@@ -25,11 +26,11 @@ public class MioZoomerConfig extends WrappedConfig {
 			"VANILLA" uses Vanilla's cinematic camera.
 			"MULTIPLIED" is a multiplied variant of "VANILLA".
 			""")
-		public final ConfigEnums.CinematicCameraOptions cinematic_camera = ConfigEnums.CinematicCameraOptions.OFF;
+		public final TrackedValue<ConfigEnums.CinematicCameraOptions> cinematic_camera = this.value(ConfigEnums.CinematicCameraOptions.OFF);
 
 		@WidgetSize(WidgetSize.Size.HALF)
 		@Comment("Reduces the mouse sensitivity when zooming.")
-		public final boolean reduce_sensitivity = true;
+		public final TrackedValue<Boolean> reduce_sensitivity = this.value(true);
 
 		@WidgetSize(WidgetSize.Size.FULL)
 		@Comment("""
@@ -38,7 +39,7 @@ public class MioZoomerConfig extends WrappedConfig {
 			"SMOOTH" replicates Vanilla's dynamic FOV.
 			"LINEAR" removes the smoothiness.
 			""")
-		public final ConfigEnums.ZoomTransitionOptions zoom_transition = ConfigEnums.ZoomTransitionOptions.SMOOTH;
+		public final TrackedValue<ConfigEnums.ZoomTransitionOptions> zoom_transition = this.value(ConfigEnums.ZoomTransitionOptions.SMOOTH);
 
 		@WidgetSize(WidgetSize.Size.HALF)
 		@Comment("""
@@ -47,15 +48,15 @@ public class MioZoomerConfig extends WrappedConfig {
 			"TOGGLE" has the zoom key toggle the zoom.
 			"PERSISTENT" makes the zoom permanent.
 			""")
-		public final ConfigEnums.ZoomModes zoom_mode = ConfigEnums.ZoomModes.HOLD;
+		public final TrackedValue<ConfigEnums.ZoomModes> zoom_mode = this.value(ConfigEnums.ZoomModes.HOLD);
 
 		@WidgetSize(WidgetSize.Size.HALF)
 		@Comment("Allows to increase or decrease zoom by scrolling.")
-		public final boolean zoom_scrolling = true;
+		public final TrackedValue<Boolean> zoom_scrolling = this.value(true);
 
 		@WidgetSize(WidgetSize.Size.HALF)
 		@Comment("Adds zoom manipulation keys along with the zoom key.")
-		public final boolean extra_key_binds = true;
+		public final TrackedValue<Boolean> extra_key_binds = this.value(true);
 
 		@WidgetSize(WidgetSize.Size.HALF)
 		@Comment("""
@@ -64,7 +65,7 @@ public class MioZoomerConfig extends WrappedConfig {
 			"SPYGLASS" uses the spyglass overlay with the vignette texture.
 			The vignette texture can be found at: assets/mio_zoomer/textures/misc/zoom_overlay.png
 			""")
-		public final ConfigEnums.ZoomOverlays zoom_overlay = ConfigEnums.ZoomOverlays.OFF;
+		public final TrackedValue<ConfigEnums.ZoomOverlays> zoom_overlay = this.value(ConfigEnums.ZoomOverlays.OFF);
 
 		@WidgetSize(WidgetSize.Size.FULL)
 		@Comment("""
@@ -74,24 +75,24 @@ public class MioZoomerConfig extends WrappedConfig {
 			"BOTH" will apply both options at the same time.
 			The "REQUIRE_ITEM" option is configurable through the mio_zoomer:zoom_dependencies item tag.
 			""")
-		public final ConfigEnums.SpyglassDependency spyglass_dependency = ConfigEnums.SpyglassDependency.OFF;
+		public final TrackedValue<ConfigEnums.SpyglassDependency> spyglass_dependency = this.value(ConfigEnums.SpyglassDependency.OFF);
 	}
 
-	public class ValuesConfig implements Section  {
+	public static class ValuesConfig extends Section {
 		@WidgetSize(WidgetSize.Size.FULL)
 		@Comment("The divisor applied to the FOV when zooming.")
 		@FloatRange(min = Double.MIN_NORMAL, max = Double.MAX_VALUE)
-		public final double zoom_divisor = 4.0;
+		public final TrackedValue<Double> zoom_divisor = this.value(4.0);
 
 		@WidgetSize(WidgetSize.Size.HALF)
 		@Comment("The minimum value that you can scroll down.")
 		@FloatRange(min = Double.MIN_NORMAL, max = Double.MAX_VALUE)
-		public final double minimum_zoom_divisor = 1.0;
+		public final TrackedValue<Double> minimum_zoom_divisor = this.value(1.0);
 
 		@WidgetSize(WidgetSize.Size.HALF)
 		@Comment("The maximum value that you can scroll down.")
 		@FloatRange(min = Double.MIN_NORMAL, max = Double.MAX_VALUE)
-		public final double maximum_zoom_divisor = 50.0;
+		public final TrackedValue<Double> maximum_zoom_divisor = this.value(50.0);
 
 		@WidgetSize(WidgetSize.Size.HALF)
 		@Comment("""
@@ -99,7 +100,7 @@ public class MioZoomerConfig extends WrappedConfig {
 			Used by zoom scrolling.
 			""")
 		@IntegerRange(min = 0, max = Integer.MAX_VALUE)
-		public final int upper_scroll_steps = 10;
+		public final TrackedValue<Integer> upper_scroll_steps = this.value(10);
 
 		@WidgetSize(WidgetSize.Size.HALF)
 		@Comment("""
@@ -107,58 +108,58 @@ public class MioZoomerConfig extends WrappedConfig {
 			Used by zoom scrolling.
 			""")
 		@IntegerRange(min = 0, max = Integer.MAX_VALUE)
-		public final int lower_scroll_steps = 5;
+		public final TrackedValue<Integer> lower_scroll_steps = this.value(5);
 
 		@WidgetSize(WidgetSize.Size.HALF)
 		@Comment("The multiplier used for smooth transitions.")
 		@FloatRange(min = Double.MIN_NORMAL, max = 1.0)
-		public final double smooth_multiplier = 0.75;
+		public final TrackedValue<Double> smooth_multiplier = this.value(0.75);
 
 		@WidgetSize(WidgetSize.Size.HALF)
 		@Comment("The multiplier used for the multiplied cinematic camera.")
 		@FloatRange(min = Double.MIN_NORMAL, max = 32.0)
-		public final double cinematic_multiplier = 4.0;
+		public final TrackedValue<Double> cinematic_multiplier = this.value(4.0);
 
 		@WidgetSize(WidgetSize.Size.HALF)
 		@Comment("The minimum value which the linear transition step can reach.")
 		@FloatRange(min = 0.0, max = Double.MAX_VALUE)
-		public final double minimum_linear_step = 0.125;
+		public final TrackedValue<Double> minimum_linear_step = this.value(0.125);
 
 		@WidgetSize(WidgetSize.Size.HALF)
 		@Comment("The maximum value which the linear transition step can reach.")
 		@FloatRange(min = 0.0, max = Double.MAX_VALUE)
-		public final double maximum_linear_step = 0.25;
+		public final TrackedValue<Double> maximum_linear_step = this.value(0.25);
 	}
 
-	public class TweaksConfig implements Section  {
+	public static class TweaksConfig extends Section {
 		@WidgetSize(WidgetSize.Size.HALF)
 		@Comment("Allows for resetting the zoom with the middle mouse button.")
-		public final boolean reset_zoom_with_mouse = true;
+		public final TrackedValue<Boolean> reset_zoom_with_mouse = this.value(true);
 
 		@WidgetSize(WidgetSize.Size.HALF)
 		@Comment("If enabled, the current zoom divisor is forgotten once zooming is done.")
-		public final boolean forget_zoom_divisor = true;
+		public final TrackedValue<Boolean> forget_zoom_divisor = this.value(true);
 
 		@WidgetSize(WidgetSize.Size.FULL)
 		@Comment("If pressed, the \"Save Toolbar Activator\" keybind will be unbound if there's a conflict with the zoom key.")
-		public final boolean unbind_conflicting_key = true;
+		public final TrackedValue<Boolean> unbind_conflicting_key = this.value(true);
 
 		@WidgetSize(WidgetSize.Size.HALF)
 		@Comment("If enabled, the spyglass overlay texture is used instead of Mio Zoomer's overlay texture.")
-		public final boolean use_spyglass_texture = false;
+		public final TrackedValue<Boolean> use_spyglass_texture = this.value(false);
 
 		@WidgetSize(WidgetSize.Size.HALF)
 		@Comment("If enabled, the zoom will use spyglass sounds on zooming in and out.")
-		public final boolean use_spyglass_sounds = false;
+		public final TrackedValue<Boolean> use_spyglass_sounds = this.value(false);
 
 		@WidgetSize(WidgetSize.Size.HALF)
 		@Comment("Shows toasts when the server imposes a restriction.")
-		public final boolean show_restriction_toasts = true;
+		public final TrackedValue<Boolean> show_restriction_toasts = this.value(true);
 
 		// TODO - Enable it again during eternal betas!
 		@WidgetSize(WidgetSize.Size.HALF)
 		@Comment("Prints a random owo in the console when the game starts.")
-		public final boolean print_owo_on_start = false;
+		public final TrackedValue<Boolean> print_owo_on_start = this.value(false);
 	}
 
 	// TODO - What if we had a secret Debug section?

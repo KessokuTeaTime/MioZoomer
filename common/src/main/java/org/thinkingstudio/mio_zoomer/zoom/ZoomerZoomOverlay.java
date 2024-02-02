@@ -72,10 +72,14 @@ public class ZoomerZoomOverlay implements ZoomOverlay {
 
         lastZoomOverlayAlpha = zoomOverlayAlpha;
 
-        if (MioZoomerConfigManager.ZOOM_TRANSITION.value().equals(ConfigEnums.ZoomTransitionOptions.SMOOTH)) {
-            zoomOverlayAlpha += (zoomMultiplier - zoomOverlayAlpha) * MioZoomerConfigManager.SMOOTH_MULTIPLIER.value();
-        } else if (MioZoomerConfigManager.ZOOM_TRANSITION.value().equals(ConfigEnums.ZoomTransitionOptions.LINEAR)) {
-            double linearStep = MathHelper.clamp(1.0F / divisor, MioZoomerConfigManager.MINIMUM_LINEAR_STEP.value(), MioZoomerConfigManager.MAXIMUM_LINEAR_STEP.value());
+		if (MioZoomerConfigManager.CONFIG.features.zoom_transition.value().equals(ConfigEnums.ZoomTransitionOptions.SMOOTH)) {
+			zoomOverlayAlpha += (float) ((zoomMultiplier - zoomOverlayAlpha) * MioZoomerConfigManager.CONFIG.values.smooth_multiplier.value());
+		} else if (MioZoomerConfigManager.CONFIG.features.zoom_transition.value().equals(ConfigEnums.ZoomTransitionOptions.LINEAR)) {
+			double linearStep = MathHelper.clamp(
+				1.0F / divisor,
+				MioZoomerConfigManager.CONFIG.values.minimum_linear_step.value(),
+				MioZoomerConfigManager.CONFIG.values.maximum_linear_step.value()
+			);
 
             zoomOverlayAlpha = MathHelper.stepTowards(zoomOverlayAlpha, zoomMultiplier, (float)linearStep);
         }

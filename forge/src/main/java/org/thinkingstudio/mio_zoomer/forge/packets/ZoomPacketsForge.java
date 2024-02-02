@@ -225,12 +225,14 @@ public class ZoomPacketsForge {
 
 		@Override
 		public void handle(NetworkEvent.Context context) {
-			ZoomUtils.LOGGER.info("[Mio Zoomer] This server has imposed classic mode");
-			ZoomPackets.disableZoomScrolling = true;
-			ZoomPackets.forceClassicMode = true;
-			ZoomPackets.applyDisableZoomScrolling();
-			ZoomPackets.applyClassicMode();
-			MioZoomerConfigManager.configureZoomInstance();
+//			ZoomUtils.LOGGER.info(String.format("[Mio Zoomer] This server has the following spyglass restrictions: Require Item: %s, Replace Zoom: %s", requireItem, replaceZoom));
+			ZoomUtils.LOGGER.info(String.format("[Mio Zoomer] This server has the following spyglass restrictions: {}", dependency));
+//			MioZoomerConfigManager.CONFIG.features.spyglass_dependency.setOverride(requireItem
+//				? (replaceZoom ? ConfigEnums.SpyglassDependency.BOTH : ConfigEnums.SpyglassDependency.REQUIRE_ITEM)
+//				: (replaceZoom ? ConfigEnums.SpyglassDependency.REPLACE_ZOOM : null));
+			MioZoomerConfigManager.CONFIG.features.spyglass_dependency.setOverride(dependency == ConfigEnums.SpyglassDependency.OFF ? null : dependency);
+			ZoomPackets.spyglassDependency = true;
+
 			ZoomPackets.checkRestrictions();
 		}
 
@@ -255,7 +257,7 @@ public class ZoomPacketsForge {
 		@Override
 		public void handle(NetworkEvent.Context context) {
 			ZoomUtils.LOGGER.info(String.format("[Mio Zoomer] This server has imposed a spyglass overlay on the zoom"));
-			MioZoomerConfigManager.ZOOM_OVERLAY.setOverride(ConfigEnums.ZoomOverlays.SPYGLASS);
+			MioZoomerConfigManager.CONFIG.features.zoom_overlay.setOverride(ConfigEnums.ZoomOverlays.SPYGLASS);
 			ZoomPackets.spyglassOverlay = true;
 			ZoomPackets.checkRestrictions();
 		}

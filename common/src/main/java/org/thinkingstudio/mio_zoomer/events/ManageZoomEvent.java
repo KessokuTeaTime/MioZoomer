@@ -22,7 +22,7 @@ public class ManageZoomEvent {
 
 		// If zoom is disabled, do not allow for zooming at all
 		boolean disableZoom = ZoomPackets.getDisableZoom() ||
-			(switch (MioZoomerConfigManager.SPYGLASS_DEPENDENCY.value()) {
+			(switch (MioZoomerConfigManager.CONFIG.features.spyglass_dependency.value()) {
 				case REQUIRE_ITEM, BOTH -> true;
 				default -> false;
 			} && !client.player.getInventory().contains(ZoomUtils.ZOOM_DEPENDENCIES_TAG));
@@ -35,7 +35,7 @@ public class ManageZoomEvent {
 		}
 
 		// Handle zoom mode changes.
-		if (!MioZoomerConfigManager.ZOOM_MODE.value().equals(ConfigEnums.ZoomModes.HOLD)) {
+		if (!MioZoomerConfigManager.CONFIG.features.zoom_mode.value().equals(ConfigEnums.ZoomModes.HOLD)) {
 			if (!persistentZoom) {
 				persistentZoom = true;
 				lastZooming = true;
@@ -49,7 +49,7 @@ public class ManageZoomEvent {
 		}
 
 		// Gathers all variables about if the press was with zoom key or with the spyglass
-		boolean isUsingSpyglass = switch (MioZoomerConfigManager.SPYGLASS_DEPENDENCY.value()) {
+		boolean isUsingSpyglass = switch (MioZoomerConfigManager.CONFIG.features.spyglass_dependency.value()) {
 			case REPLACE_ZOOM, BOTH -> true;
 			default -> false;
 		};
@@ -61,9 +61,9 @@ public class ManageZoomEvent {
 		// This makes toggling usable and the zoom divisor adjustable
 		if (zooming == lastZooming) return;
 
-		boolean doSpyglassSound = MioZoomerConfigManager.USE_SPYGLASS_SOUNDS.value();
+		boolean doSpyglassSound = MioZoomerConfigManager.CONFIG.tweaks.use_spyglass_sounds.value();
 
-		switch (MioZoomerConfigManager.ZOOM_MODE.value()) {
+		switch (MioZoomerConfigManager.CONFIG.features.zoom_mode.value()) {
 			case HOLD -> {
 				// If the zoom needs to be held, then the zoom signal is determined by if the key is pressed or not
 				ZoomUtils.ZOOMER_ZOOM.setZoom(zooming);
@@ -86,7 +86,7 @@ public class ManageZoomEvent {
 		}
 
 		if (doSpyglassSound && !spyglassUse) {
-			boolean soundDirection = !MioZoomerConfigManager.ZOOM_MODE.value().equals(ConfigEnums.ZoomModes.PERSISTENT)
+			boolean soundDirection = !MioZoomerConfigManager.CONFIG.features.zoom_mode.value().equals(ConfigEnums.ZoomModes.PERSISTENT)
 				? ZoomUtils.ZOOMER_ZOOM.getZoom()
 				: keyPress;
 

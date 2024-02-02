@@ -9,8 +9,8 @@ import net.minecraft.client.MinecraftClient;
 public class ManageExtraKeysEvent {
 	public static void startClientTick(MinecraftClient client) {
 		if (!ZoomKeyBinds.areExtraKeyBindsEnabled()) return;
-		if (!MioZoomerConfigManager.EXTRA_KEY_BINDS.value()) return;
-		if (MioZoomerConfigManager.ZOOM_SCROLLING.isBeingOverridden()) return;
+		if (!MioZoomerConfigManager.CONFIG.features.extra_key_binds.value()) return;
+		if (MioZoomerConfigManager.CONFIG.features.zoom_scrolling.isBeingOverridden()) return;
 
 		if (ZoomKeyBinds.DECREASE_ZOOM_KEY.isPressed() && !ZoomKeyBinds.INCREASE_ZOOM_KEY.isPressed()) {
 			ZoomUtils.changeZoomDivisor(false);

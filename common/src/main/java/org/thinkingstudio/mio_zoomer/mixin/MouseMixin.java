@@ -28,10 +28,10 @@ public abstract class MouseMixin {
 		at = @At(value = "FIELD", target = "Lnet/minecraft/client/Mouse;scrollDelta:D", ordinal = 7),
 		cancellable = true
 	)
-	private void mio_zoomer$zoomerOnMouseScroll(CallbackInfo ci) {
+	private void zoomerOnMouseScroll(CallbackInfo ci) {
 		if (this.scrollDelta != 0.0) {
-			if (MioZoomerConfigManager.ZOOM_SCROLLING.value()) {
-				if (MioZoomerConfigManager.ZOOM_MODE.value().equals(ConfigEnums.ZoomModes.PERSISTENT)) {
+			if (MioZoomerConfigManager.CONFIG.features.zoom_scrolling.value()) {
+				if (MioZoomerConfigManager.CONFIG.features.zoom_mode.value().equals(ConfigEnums.ZoomModes.PERSISTENT)) {
 					if (!ZoomKeyBinds.ZOOM_KEY.isPressed()) return;
 				}
 
@@ -46,19 +46,19 @@ public abstract class MouseMixin {
 	// Handles the zoom scrolling reset through the middle button
 	@Inject(
 		method = "onMouseButton",
-		at = @At(value = "INVOKE", target = "net/minecraft/client/option/KeyBind.setKeyPressed(Lcom/mojang/blaze3d/platform/InputUtil$Key;Z)V"),
+		at = @At(value = "INVOKE", target = "Lnet/minecraft/client/option/KeyBind;setKeyPressed(Lcom/mojang/blaze3d/platform/InputUtil$Key;Z)V"),
 		cancellable = true,
 		locals = LocalCapture.CAPTURE_FAILHARD
 	)
-	private void mio_zoomer$zoomerOnMouseButton(long window, int button, int action, int modifiers, CallbackInfo ci, boolean bl, int i) {
-		if (MioZoomerConfigManager.ZOOM_SCROLLING.value()) {
-			if (MioZoomerConfigManager.ZOOM_MODE.value().equals(ConfigEnums.ZoomModes.PERSISTENT)) {
+	private void zoomerOnMouseButton(long window, int button, int action, int modifiers, CallbackInfo ci, boolean bl, int i) {
+		if (MioZoomerConfigManager.CONFIG.features.zoom_scrolling.value()) {
+			if (MioZoomerConfigManager.CONFIG.features.zoom_mode.value().equals(ConfigEnums.ZoomModes.PERSISTENT)) {
 				if (!ZoomKeyBinds.ZOOM_KEY.isPressed()) return;
 			}
 
 			if (button == GLFW.GLFW_MOUSE_BUTTON_MIDDLE && bl) {
 				if (ZoomKeyBinds.ZOOM_KEY.isPressed()) {
-					if (MioZoomerConfigManager.RESET_ZOOM_WITH_MOUSE.value()) {
+					if (MioZoomerConfigManager.CONFIG.tweaks.reset_zoom_with_mouse.value()) {
 						ZoomUtils.resetZoomDivisor(true);
 						ci.cancel();
 					}
@@ -73,7 +73,7 @@ public abstract class MouseMixin {
 		at = @At(value = "INVOKE", target = "Lnet/minecraft/client/network/ClientPlayerEntity;isUsingSpyglass()Z")
 	)
 	private boolean mio_zoomer$replaceSpyglassMouseMovement(boolean isUsingSpyglass) {
-		if (switch (MioZoomerConfigManager.SPYGLASS_DEPENDENCY.value()) {
+		if (switch (MioZoomerConfigManager.CONFIG.features.spyglass_dependency.value()) {
 			case REPLACE_ZOOM, BOTH -> true;
 			default -> false;
 		}) {

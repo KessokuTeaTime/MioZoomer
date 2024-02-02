@@ -22,10 +22,6 @@ public record CustomTextureBackground(Identifier textureId, float red, float gre
 		this.renderBackgroundTexture(graphics, 0, 0, screen.width, screen.height, 0);
 	}
 
-	public void render(GuiGraphics graphics, Screen screen, int vOffset) {
-		this.renderBackgroundTexture(graphics, 0, 0, screen.width, screen.height, vOffset);
-	}
-
 	public void renderBackgroundTexture(GuiGraphics graphics, int x, int y, int width, int height, int vOffset) {
 		graphics.setShaderColor(red, green, blue, alpha);
 		graphics.drawTexture(this.textureId, x, y, 0, 0.0F, vOffset, width, height, 32, 32);

@@ -11,11 +11,11 @@ import net.minecraft.client.gui.hud.InGameHud;
 @Mixin(InGameHud.class)
 public abstract class InGameHudMixin {
 	@ModifyExpressionValue(
-		at = @At(value = "INVOKE", target = "Lnet/minecraft/client/network/ClientPlayerEntity;isUsingSpyglass()Z"),
-		method = "render"
+		method = "render",
+		at = @At(value = "INVOKE", target = "Lnet/minecraft/client/network/ClientPlayerEntity;isUsingSpyglass()Z")
 	)
 	private boolean mio_zoomer$activateSpyglassOverlay(boolean isUsingSpyglass) {
-		if (switch (MioZoomerConfigManager.SPYGLASS_DEPENDENCY.value()) {
+		if (switch (MioZoomerConfigManager.CONFIG.features.spyglass_dependency.value()) {
 			case REPLACE_ZOOM, BOTH -> true;
 			default -> false;
 		}) {

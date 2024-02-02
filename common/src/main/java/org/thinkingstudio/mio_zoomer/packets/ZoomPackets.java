@@ -38,11 +38,11 @@ public class ZoomPackets {
 	public static boolean spyglassDependency = false;
 	public static boolean spyglassOverlay = false;
 
-	private static Text toastTitle = Text.translatable("toast.mio_zoomer.title");
+	private static final Text TOAST_TITLE = Text.translatable("toast.mio_zoomer.title");
 
 	public static void sendToast(MinecraftClient client, Text description) {
-		if (MioZoomerConfigManager.SHOW_RESTRICTION_TOASTS.value()) {
-			client.getToastManager().add(SystemToast.create(client, SystemToast.Type.TUTORIAL_HINT, toastTitle, description));
+		if (MioZoomerConfigManager.CONFIG.tweaks.show_restriction_toasts.value()) {
+			client.getToastManager().add(SystemToast.create(client, SystemToast.Type.TUTORIAL_HINT, TOAST_TITLE, description));
 		}
 	}
 
@@ -103,14 +103,14 @@ public class ZoomPackets {
 	}
 
 	public static void applyDisableZoomScrolling() {
-		MioZoomerConfigManager.ZOOM_SCROLLING.setOverride(false);
-		MioZoomerConfigManager.EXTRA_KEY_BINDS.setOverride(false);
+		MioZoomerConfigManager.CONFIG.features.zoom_scrolling.setOverride(false);
+		MioZoomerConfigManager.CONFIG.features.extra_key_binds.setOverride(false);
 	}
 
 	public static void applyClassicMode() {
-		MioZoomerConfigManager.CINEMATIC_CAMERA.setOverride(ConfigEnums.CinematicCameraOptions.VANILLA);
-		MioZoomerConfigManager.REDUCE_SENSITIVITY.setOverride(false);
-		MioZoomerConfigManager.ZOOM_DIVISOR.setOverride(4.0D);
+		MioZoomerConfigManager.CONFIG.features.cinematic_camera.setOverride(ConfigEnums.CinematicCameraOptions.VANILLA);
+		MioZoomerConfigManager.CONFIG.features.reduce_sensitivity.setOverride(false);
+		MioZoomerConfigManager.CONFIG.values.zoom_divisor.setOverride(4.0D);
 	}
 
 	//The method used to reset the signals once left the server.
@@ -118,19 +118,19 @@ public class ZoomPackets {
 		ZoomPackets.hasRestrictions = false;
 		ZoomPackets.disableZoom = false;
 		ZoomPackets.disableZoomScrolling = false;
-		MioZoomerConfigManager.ZOOM_SCROLLING.removeOverride();
-		MioZoomerConfigManager.EXTRA_KEY_BINDS.removeOverride();
+		MioZoomerConfigManager.CONFIG.features.zoom_scrolling.removeOverride();
+		MioZoomerConfigManager.CONFIG.features.extra_key_binds.removeOverride();
 		ZoomPackets.forceClassicMode = false;
-		MioZoomerConfigManager.CINEMATIC_CAMERA.removeOverride();
-		MioZoomerConfigManager.REDUCE_SENSITIVITY.removeOverride();
-		MioZoomerConfigManager.ZOOM_DIVISOR.removeOverride();
+		MioZoomerConfigManager.CONFIG.features.cinematic_camera.removeOverride();
+		MioZoomerConfigManager.CONFIG.features.reduce_sensitivity.removeOverride();
+		MioZoomerConfigManager.CONFIG.values.zoom_divisor.removeOverride();
 		ZoomPackets.forceZoomDivisors = false;
 		ZoomPackets.maximumZoomDivisor = 0.0D;
 		ZoomPackets.minimumZoomDivisor = 0.0D;
 		ZoomPackets.acknowledgement = Acknowledgement.NONE;
 		ZoomPackets.spyglassDependency = false;
-		MioZoomerConfigManager.SPYGLASS_DEPENDENCY.removeOverride();
+		MioZoomerConfigManager.CONFIG.features.spyglass_dependency.removeOverride();
 		ZoomPackets.spyglassOverlay = false;
-		MioZoomerConfigManager.ZOOM_OVERLAY.removeOverride();
+		MioZoomerConfigManager.CONFIG.features.zoom_overlay.removeOverride();
 	}
 }
