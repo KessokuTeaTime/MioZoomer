@@ -1,6 +1,6 @@
 package org.thinkingstudio.mio_zoomer;
 
-import ho.artisan.azusa_config.shadow.quiltconfig.api.annotations.ConfigFieldAnnotationProcessor;
+import org.quiltmc.config.api.annotations.ConfigFieldAnnotationProcessor;
 
 import org.thinkingstudio.mio_zoomer.config.metadata.WidgetSize;
 

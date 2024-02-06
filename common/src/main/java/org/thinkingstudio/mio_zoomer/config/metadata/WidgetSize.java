@@ -6,9 +6,9 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 import java.util.Optional;
 
-import ho.artisan.azusa_config.shadow.quiltconfig.api.annotations.ConfigFieldAnnotationProcessor;
-import ho.artisan.azusa_config.shadow.quiltconfig.api.metadata.MetadataContainerBuilder;
-import ho.artisan.azusa_config.shadow.quiltconfig.api.metadata.MetadataType;
+import org.quiltmc.config.api.annotations.ConfigFieldAnnotationProcessor;
+import org.quiltmc.config.api.metadata.MetadataContainerBuilder;
+import org.quiltmc.config.api.metadata.MetadataType;
 
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.FIELD)

@@ -1,5 +1,5 @@
 plugins {
-    id "com.github.johnrengelman.shadow" version "7.1.2"
+    id "com.github.johnrengelman.shadow" version "8.+"
 }
 
 architectury {
@@ -26,12 +26,17 @@ configurations {
 dependencies {
     forge "net.minecraftforge:forge:${rootProject.forge_version}"
     modApi "dev.architectury:architectury-forge:${rootProject.architectury_version}"
-	modImplementation("com.github.HO-Artisan.AzusaConfig:AzusaConfig-forge:1.20.1~dev-SNAPSHOT")
-	modImplementation("maven.modrinth:obsidianui:${rootProject.obsidianui_version}-forge")
-	modImplementation("maven.modrinth:zoomerlibrary:${rootProject.zoomerlibrary_version}-forge")
+	modApi "curse.maven:azusaconfig-970148:5078177"
+	modApi "maven.modrinth:zoomerlibrary:${rootProject.zoomerlibrary_version}-forge"
+	modImplementation "maven.modrinth:obsidianui:${rootProject.obsidianui_version}-forge"
 
 	compileOnly(annotationProcessor("io.github.llamalad7:mixinextras-common:0.3.5"))
 	implementation(include("io.github.llamalad7:mixinextras-forge:0.3.5"))
+
+	compileOnly "org.quiltmc:quilt-config:${rootProject.quiltconfig_version}"
+	compileOnly "org.quiltmc.parsers:json:${rootProject.quiltparsers_version}"
+	compileOnly "com.electronwill.night-config:core:${rootProject.nightconfig_version}"
+	compileOnly "com.electronwill.night-config:toml:${rootProject.nightconfig_version}"
 
     common(project(path: ":common", configuration: "namedElements")) { transitive false }
     shadowCommon(project(path: ":common", configuration: "transformProductionForge")) { transitive = false }

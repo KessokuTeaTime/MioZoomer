@@ -7,11 +7,16 @@ dependencies {
     // Do NOT use other classes from fabric loader
     modImplementation "net.fabricmc:fabric-loader:${rootProject.fabric_loader_version}"
     modApi "dev.architectury:architectury:${rootProject.architectury_version}"
-	modImplementation("com.github.HO-Artisan.AzusaConfig:AzusaConfig-fabric:1.20.1~dev-SNAPSHOT")
+	modApi("curse.maven:azusaconfig-970148:5078170")
+	modApi("maven.modrinth:zoomerlibrary:${rootProject.zoomerlibrary_version}-fabric")
 	modImplementation("maven.modrinth:obsidianui:${rootProject.obsidianui_version}-fabric")
-	modImplementation("maven.modrinth:zoomerlibrary:${rootProject.zoomerlibrary_version}-fabric")
 
 	compileOnly(annotationProcessor("io.github.llamalad7:mixinextras-common:0.3.5"))
+
+	compileOnly "org.quiltmc:quilt-config:${rootProject.quiltconfig_version}"
+	compileOnly "org.quiltmc.parsers:json:${rootProject.quiltparsers_version}"
+	compileOnly "com.electronwill.night-config:core:${rootProject.nightconfig_version}"
+	compileOnly "com.electronwill.night-config:toml:${rootProject.nightconfig_version}"
 }
 
 publishing {

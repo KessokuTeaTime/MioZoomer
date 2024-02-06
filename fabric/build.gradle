@@ -1,5 +1,5 @@
 plugins {
-    id "com.github.johnrengelman.shadow" version "7.1.2"
+    id "com.github.johnrengelman.shadow" version "8.+"
 }
 
 architectury {
@@ -19,9 +19,14 @@ dependencies {
     modImplementation "net.fabricmc:fabric-loader:${rootProject.fabric_loader_version}"
     modApi "net.fabricmc.fabric-api:fabric-api:${rootProject.fabric_api_version}"
     modApi "dev.architectury:architectury-fabric:${rootProject.architectury_version}"
-	modImplementation("com.github.HO-Artisan.AzusaConfig:AzusaConfig-fabric:1.20.1~dev-SNAPSHOT")
-	modImplementation("maven.modrinth:obsidianui:${rootProject.obsidianui_version}-fabric")
-	modImplementation("maven.modrinth:zoomerlibrary:${rootProject.zoomerlibrary_version}-fabric")
+	modApi "curse.maven:azusaconfig-970148:5078170"
+	modApi "maven.modrinth:zoomerlibrary:${rootProject.zoomerlibrary_version}-fabric"
+	modImplementation "maven.modrinth:obsidianui:${rootProject.obsidianui_version}-fabric"
+
+	compileOnly "org.quiltmc:quilt-config:${rootProject.quiltconfig_version}"
+	compileOnly "org.quiltmc.parsers:json:${rootProject.quiltparsers_version}"
+	compileOnly "com.electronwill.night-config:core:${rootProject.nightconfig_version}"
+	compileOnly "com.electronwill.night-config:toml:${rootProject.nightconfig_version}"
 
     common(project(path: ":common", configuration: "namedElements")) { transitive false }
     shadowCommon(project(path: ":common", configuration: "transformProductionFabric")) { transitive false }

@@ -1,11 +1,11 @@
 package org.thinkingstudio.mio_zoomer.config;
 
-import ho.artisan.azusa_config.shadow.quiltconfig.api.ReflectiveConfig;
-import ho.artisan.azusa_config.shadow.quiltconfig.api.annotations.Comment;
-import ho.artisan.azusa_config.shadow.quiltconfig.api.annotations.FloatRange;
-import ho.artisan.azusa_config.shadow.quiltconfig.api.annotations.IntegerRange;
+import org.quiltmc.config.api.ReflectiveConfig;
+import org.quiltmc.config.api.annotations.Comment;
+import org.quiltmc.config.api.annotations.FloatRange;
+import org.quiltmc.config.api.annotations.IntegerRange;
 
-import ho.artisan.azusa_config.shadow.quiltconfig.api.values.TrackedValue;
+import org.quiltmc.config.api.values.TrackedValue;
 import org.thinkingstudio.mio_zoomer.config.metadata.WidgetSize;
 
 public class MioZoomerConfig extends ReflectiveConfig {

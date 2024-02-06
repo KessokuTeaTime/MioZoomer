@@ -1,9 +1,5 @@
 package org.thinkingstudio.mio_zoomer.config;
 
-import java.util.List;
-
-import ho.artisan.azusa_config.shadow.quiltconfig.api.values.TrackedValue;
-
 import ho.artisan.azusaconfig.api.config.v2.AzusaConfig;
 import org.thinkingstudio.mio_zoomer.utils.ZoomUtils;
 import org.thinkingstudio.mio_zoomer.zoom.LinearTransitionMode;

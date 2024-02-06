@@ -3,9 +3,9 @@ package org.thinkingstudio.mio_zoomer.config.screen;
 import java.lang.reflect.Field;
 import java.util.Map;
 
-import ho.artisan.azusa_config.shadow.quiltconfig.api.Constraint;
-import ho.artisan.azusa_config.shadow.quiltconfig.api.values.TrackedValue;
-import ho.artisan.azusa_config.shadow.quiltconfig.api.values.ValueTreeNode;
+import org.quiltmc.config.api.Constraint;
+import org.quiltmc.config.api.values.TrackedValue;
+import org.quiltmc.config.api.values.ValueTreeNode;
 
 import net.minecraft.util.CommonColors;
 import org.thinkingstudio.mio_zoomer.config.ConfigEnums;
