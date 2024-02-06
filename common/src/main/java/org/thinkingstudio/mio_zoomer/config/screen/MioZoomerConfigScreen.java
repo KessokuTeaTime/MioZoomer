@@ -57,7 +57,7 @@ public class MioZoomerConfigScreen extends SpruceScreen {
 	// So we do it ourselves automatically!
 	private static Text getCyclingOptionText(String text, Text prefix) {
 		return Text.translatable(
-			"spruceui.options.generic",
+			"obsidianui.options.generic",
 			prefix,
 			text != null ? Text.translatable(text) : Text.literal("Error"));
 	}
