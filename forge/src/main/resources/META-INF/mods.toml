@@ -49,7 +49,7 @@ ordering = "AFTER"
 side = "BOTH"
 
 [[dependencies.mio_zoomer]]
-modId = "azusa_config"
+modId = "azusaconfig"
 mandatory = true
 versionRange = "*"
 ordering = "AFTER"

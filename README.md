@@ -1,4 +1,4 @@
-<img src="./src/main/resources/assets/mio_zoomer/icon.png" align="right" width="128px" alt="Mio Zoomer icon"/>
+<img src="./common/src/main/resources/icon.png" align="right" width="128px" alt="Mio Zoomer icon"/>
 
 # Mio Zoomer
 
