@@ -3,7 +3,7 @@
   "id": "mio_zoomer",
   "version": "${version}",
   "name": "Mio Zoomer",
-  "description": "Adds a highly configurable zoom button. \nBy default, this mod provides its own take on zooming, however, with configuration, \nyou can drastically change the zoom with something more familiar or useful. \nThe zoom is yours!",
+  "description": "OK Zoomer unofficial architectury port. \nAdds a highly configurable zoom button. \nBy default, this mod provides its own take on zooming, however, with configuration, \nyou can drastically change the zoom with something more familiar or useful. \nThe zoom is yours!",
   "authors": [
     "TexTrue, Thinkingstudio, Ennui Langeweile"
   ],
