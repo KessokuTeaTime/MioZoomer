@@ -3,7 +3,7 @@ package org.thinkingstudio.mio_zoomer.events;
 import dev.architectury.event.events.client.ClientLifecycleEvent;
 import dev.architectury.event.events.client.ClientTickEvent;
 
-public class CommonEventHandler {
+public class ZoomEvents {
 	public static void registerClient() {
 		ClientLifecycleEvent.CLIENT_SETUP.register(instance -> {
 			ApplyLoadOnceOptionsEvent.readyClient(instance);
