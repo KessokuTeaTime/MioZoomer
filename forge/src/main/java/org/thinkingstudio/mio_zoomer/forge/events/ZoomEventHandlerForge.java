@@ -5,12 +5,12 @@ import net.minecraftforge.client.event.RegisterClientCommandsEvent;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.eventbus.api.EventPriority;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
-import org.thinkingstudio.mio_zoomer.events.ZoomEventHandlerCommon;
+import org.thinkingstudio.mio_zoomer.events.CommonEventHandler;
 import org.thinkingstudio.mio_zoomer.utils.ZoomUtils;
 
 public class ZoomEventHandlerForge {
 	public static void registerClient() {
-		ZoomEventHandlerCommon.registerClient();
+		CommonEventHandler.registerClient();
 
 		MinecraftForge.EVENT_BUS.addListener(ZoomEventHandlerForge::registerClientCommand);
 	}
