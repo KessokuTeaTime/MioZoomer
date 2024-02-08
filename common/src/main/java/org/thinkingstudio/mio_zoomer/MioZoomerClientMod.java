@@ -12,9 +12,6 @@ public class MioZoomerClientMod {
 	public static final String MODID = "mio_zoomer";
 
 	public static void onInitClient() {
-	}
-
-	public void onInitializeClient() {
 		// Initialize the config
 		new MioZoomerConfigManager();
 

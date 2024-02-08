@@ -13,7 +13,7 @@ import org.thinkingstudio.zoomerlibrary.api.ZoomOverlay;
 
 // Implements the zoom overlay
 public class ZoomerZoomOverlay implements ZoomOverlay {
-    private static final Identifier OVERLAY_ID = new Identifier(MioZoomerClientMod.MODID + ":zoom_overlay");
+    private static final Identifier OVERLAY_ID = new Identifier(MioZoomerClientMod.MODID, "zoom_overlay");
     private final Identifier textureId;
     private boolean active;
     private final MinecraftClient client;

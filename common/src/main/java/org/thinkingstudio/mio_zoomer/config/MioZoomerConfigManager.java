@@ -45,7 +45,7 @@ public class MioZoomerConfigManager {
 		// Sets zoom overlay
 		Identifier overlayTextureId = new Identifier(
 			CONFIG.tweaks.use_spyglass_texture.value()
-			? "textures/misc/spyglass_scope.png"
+			? "minecraft:textures/misc/spyglass_scope.png"
 			: MioZoomerClientMod.MODID + ":textures/misc/zoom_overlay.png");
 
 		ZoomUtils.ZOOMER_ZOOM.setZoomOverlay(
