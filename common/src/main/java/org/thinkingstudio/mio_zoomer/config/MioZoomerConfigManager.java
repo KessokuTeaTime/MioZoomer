@@ -1,10 +1,13 @@
 package org.thinkingstudio.mio_zoomer.config;
 
 import ho.artisan.azusaconfig.api.config.v2.AzusaConfig;
+import org.thinkingstudio.mio_zoomer.MioZoomerClientMod;
+import org.thinkingstudio.mio_zoomer.config.ConfigEnums.CinematicCameraOptions;
 import org.thinkingstudio.mio_zoomer.utils.ZoomUtils;
 import org.thinkingstudio.mio_zoomer.zoom.LinearTransitionMode;
 import org.thinkingstudio.mio_zoomer.zoom.MultipliedCinematicCameraMouseModifier;
 import org.thinkingstudio.mio_zoomer.zoom.ZoomerZoomOverlay;
+import net.minecraft.util.Identifier;
 import org.thinkingstudio.zoomerlibrary.api.MouseModifier;
 import org.thinkingstudio.zoomerlibrary.api.modifiers.CinematicCameraMouseModifier;
 import org.thinkingstudio.zoomerlibrary.api.modifiers.ContainingMouseModifier;
@@ -12,11 +15,9 @@ import org.thinkingstudio.zoomerlibrary.api.modifiers.ZoomDivisorMouseModifier;
 import org.thinkingstudio.zoomerlibrary.api.overlays.SpyglassZoomOverlay;
 import org.thinkingstudio.zoomerlibrary.api.transitions.InstantTransitionMode;
 import org.thinkingstudio.zoomerlibrary.api.transitions.SmoothTransitionMode;
-import net.minecraft.util.Identifier;
 
-@SuppressWarnings("unchecked")
 public class MioZoomerConfigManager {
-	public static final MioZoomerConfig CONFIG = AzusaConfig.create("mio_zoomer", "config", MioZoomerConfig.class);
+	public static final MioZoomerConfig CONFIG = AzusaConfig.create(MioZoomerClientMod.MODID, "config", MioZoomerConfig.class);
 
 	public MioZoomerConfigManager() {
 		// On initialization, configure our zoom instance
@@ -45,7 +46,7 @@ public class MioZoomerConfigManager {
 		Identifier overlayTextureId = new Identifier(
 			CONFIG.tweaks.use_spyglass_texture.value()
 			? "textures/misc/spyglass_scope.png"
-			: "mio_zoomer:textures/misc/zoom_overlay.png");
+			: MioZoomerClientMod.MODID + ":textures/misc/zoom_overlay.png");
 
 		ZoomUtils.ZOOMER_ZOOM.setZoomOverlay(
 			switch (CONFIG.features.zoom_overlay.value()) {
@@ -57,9 +58,9 @@ public class MioZoomerConfigManager {
 	}
 
 	public static void configureZoomModifier() {
-		ConfigEnums.CinematicCameraOptions cinematicCamera = CONFIG.features.cinematic_camera.value();
+		CinematicCameraOptions cinematicCamera = CONFIG.features.cinematic_camera.value();
 		boolean reduceSensitivity = CONFIG.features.reduce_sensitivity.value();
-		if (cinematicCamera != ConfigEnums.CinematicCameraOptions.OFF) {
+		if (cinematicCamera != CinematicCameraOptions.OFF) {
 			MouseModifier cinematicModifier = switch (cinematicCamera) {
 				case VANILLA -> new CinematicCameraMouseModifier();
 				case MULTIPLIED -> new MultipliedCinematicCameraMouseModifier(CONFIG.values.cinematic_multiplier.value());

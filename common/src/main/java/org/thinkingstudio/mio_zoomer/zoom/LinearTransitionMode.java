@@ -1,12 +1,13 @@
 package org.thinkingstudio.mio_zoomer.zoom;
 
+import org.thinkingstudio.mio_zoomer.MioZoomerClientMod;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.MathHelper;
 import org.thinkingstudio.zoomerlibrary.api.TransitionMode;
 
 // The implementation of the linear transition
 public class LinearTransitionMode implements TransitionMode {
-    private static final Identifier TRANSITION_ID = new Identifier("mio_zoomer:linear_transition");
+    private static final Identifier TRANSITION_ID = new Identifier(MioZoomerClientMod.MODID + ":linear_transition");
     private boolean active;
     private final double minimumLinearStep;
     private final double maximumLinearStep;

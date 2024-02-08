@@ -2,9 +2,9 @@ package org.thinkingstudio.mio_zoomer.key_binds;
 
 import com.mojang.blaze3d.platform.InputUtil;
 
+import org.thinkingstudio.mio_zoomer.config.MioZoomerConfigManager;
 import org.lwjgl.glfw.GLFW;
 
-import org.thinkingstudio.mio_zoomer.config.MioZoomerConfigManager;
 import net.minecraft.client.option.KeyBind;
 
 // Manages the zoom key binds themselves

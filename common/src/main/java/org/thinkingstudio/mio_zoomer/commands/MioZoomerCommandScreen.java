@@ -1,8 +1,12 @@
 package org.thinkingstudio.mio_zoomer.commands;
 
+import org.thinkingstudio.mio_zoomer.config.MioZoomerConfigManager;
 import org.thinkingstudio.mio_zoomer.config.screen.MioZoomerConfigScreen;
 import org.thinkingstudio.mio_zoomer.config.screen.widgets.SpruceLabelOption;
 import org.thinkingstudio.mio_zoomer.packets.ZoomPackets;
+
+import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.text.Text;
 import org.thinkingstudio.obsidianui.Position;
 import org.thinkingstudio.obsidianui.SpruceTexts;
 import org.thinkingstudio.obsidianui.background.SimpleColorBackground;
@@ -11,10 +15,6 @@ import org.thinkingstudio.obsidianui.option.SpruceSimpleActionOption;
 import org.thinkingstudio.obsidianui.screen.SpruceScreen;
 import org.thinkingstudio.obsidianui.widget.SpruceButtonWidget;
 import org.thinkingstudio.obsidianui.widget.container.SpruceOptionListWidget;
-import org.thinkingstudio.mio_zoomer.config.MioZoomerConfigManager;
-
-import net.minecraft.client.gui.GuiGraphics;
-import net.minecraft.text.Text;
 
 public class MioZoomerCommandScreen extends SpruceScreen {
 	private static final SimpleColorBackground DARKENED_BACKGROUND = new SimpleColorBackground(0, 0, 0, 128);
@@ -87,11 +87,11 @@ public class MioZoomerCommandScreen extends SpruceScreen {
 
 		if (!ZoomPackets.getHasRestrictions()) {
 			boolean acknowledged = ZoomPackets.getAcknowledgement().equals(ZoomPackets.Acknowledgement.HAS_NO_RESTRICTIONS);
-			if (acknowledged) {
-				list.addSingleOptionEntry(new SpruceLabelOption("command.mio_zoomer.restrictions.no_restrictions.acknowledged", true));
-			} else {
-				list.addSingleOptionEntry(new SpruceLabelOption("command.mio_zoomer.restrictions.no_restrictions", true));
-			}
+			list.addSingleOptionEntry(new SpruceLabelOption(acknowledged
+				? "command.mio_zoomer.restrictions.no_restrictions.acknowledged"
+				: "command.mio_zoomer.restrictions.no_restrictions",
+				true)
+			);
 		}
 
 		this.addDrawableChild(list);

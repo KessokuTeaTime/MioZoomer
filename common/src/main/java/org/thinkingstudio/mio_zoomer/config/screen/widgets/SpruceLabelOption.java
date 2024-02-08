@@ -1,8 +1,5 @@
 package org.thinkingstudio.mio_zoomer.config.screen.widgets;
 
-
-import org.jetbrains.annotations.Nullable;
-
 import net.minecraft.text.Text;
 import org.thinkingstudio.obsidianui.Position;
 import org.thinkingstudio.obsidianui.option.SpruceOption;

@@ -1,5 +1,6 @@
 package org.thinkingstudio.mio_zoomer.zoom;
 
+import org.thinkingstudio.mio_zoomer.MioZoomerClientMod;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.util.SmoothUtil;
 import net.minecraft.util.Identifier;
@@ -7,7 +8,7 @@ import org.thinkingstudio.zoomerlibrary.api.MouseModifier;
 
 // The implementation of the multiplied cinematic camera
 public class MultipliedCinematicCameraMouseModifier implements MouseModifier {
-    private static final Identifier MODIFIER_ID = new Identifier("mio_zoomer:multiplied_cinematic_camera");
+    private static final Identifier MODIFIER_ID = new Identifier(MioZoomerClientMod.MODID + ":multiplied_cinematic_camera");
     private final MinecraftClient client;
     private final SmoothUtil cursorXZoomSmoother = new SmoothUtil();
     private final SmoothUtil cursorYZoomSmoother = new SmoothUtil();

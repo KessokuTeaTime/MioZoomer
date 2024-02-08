@@ -2,6 +2,7 @@ package org.thinkingstudio.mio_zoomer.mixin;
 
 import com.llamalad7.mixinextras.injector.ModifyExpressionValue;
 
+import org.thinkingstudio.mio_zoomer.config.MioZoomerConfigManager;
 import org.lwjgl.glfw.GLFW;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
@@ -10,11 +11,10 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.LocalCapture;
 
-import org.thinkingstudio.mio_zoomer.config.MioZoomerConfigManager;
+import org.thinkingstudio.mio_zoomer.config.ConfigEnums.ZoomModes;
 import org.thinkingstudio.mio_zoomer.key_binds.ZoomKeyBinds;
 import org.thinkingstudio.mio_zoomer.utils.ZoomUtils;
 import net.minecraft.client.Mouse;
-import org.thinkingstudio.mio_zoomer.config.ConfigEnums;
 
 // This mixin is responsible for the mouse-behavior-changing part of the zoom
 @Mixin(Mouse.class)
@@ -31,7 +31,7 @@ public abstract class MouseMixin {
 	private void zoomerOnMouseScroll(CallbackInfo ci) {
 		if (this.scrollDelta != 0.0) {
 			if (MioZoomerConfigManager.CONFIG.features.zoom_scrolling.value()) {
-				if (MioZoomerConfigManager.CONFIG.features.zoom_mode.value().equals(ConfigEnums.ZoomModes.PERSISTENT)) {
+				if (MioZoomerConfigManager.CONFIG.features.zoom_mode.value().equals(ZoomModes.PERSISTENT)) {
 					if (!ZoomKeyBinds.ZOOM_KEY.isPressed()) return;
 				}
 
@@ -52,7 +52,7 @@ public abstract class MouseMixin {
 	)
 	private void zoomerOnMouseButton(long window, int button, int action, int modifiers, CallbackInfo ci, boolean bl, int i) {
 		if (MioZoomerConfigManager.CONFIG.features.zoom_scrolling.value()) {
-			if (MioZoomerConfigManager.CONFIG.features.zoom_mode.value().equals(ConfigEnums.ZoomModes.PERSISTENT)) {
+			if (MioZoomerConfigManager.CONFIG.features.zoom_mode.value().equals(ZoomModes.PERSISTENT)) {
 				if (!ZoomKeyBinds.ZOOM_KEY.isPressed()) return;
 			}
 
@@ -72,7 +72,7 @@ public abstract class MouseMixin {
 		method = "updateLookDirection",
 		at = @At(value = "INVOKE", target = "Lnet/minecraft/client/network/ClientPlayerEntity;isUsingSpyglass()Z")
 	)
-	private boolean mio_zoomer$replaceSpyglassMouseMovement(boolean isUsingSpyglass) {
+	private boolean replaceSpyglassMouseMovement(boolean isUsingSpyglass) {
 		if (switch (MioZoomerConfigManager.CONFIG.features.spyglass_dependency.value()) {
 			case REPLACE_ZOOM, BOTH -> true;
 			default -> false;

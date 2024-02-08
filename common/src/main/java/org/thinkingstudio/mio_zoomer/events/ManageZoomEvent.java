@@ -1,12 +1,12 @@
 package org.thinkingstudio.mio_zoomer.events;
 
 import org.thinkingstudio.mio_zoomer.config.MioZoomerConfigManager;
+import org.thinkingstudio.mio_zoomer.config.ConfigEnums.ZoomModes;
 import org.thinkingstudio.mio_zoomer.key_binds.ZoomKeyBinds;
 import org.thinkingstudio.mio_zoomer.packets.ZoomPackets;
 import org.thinkingstudio.mio_zoomer.utils.ZoomUtils;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.sound.SoundEvents;
-import org.thinkingstudio.mio_zoomer.config.ConfigEnums;
 
 // This event is responsible for managing the zoom signal.
 public class ManageZoomEvent {
@@ -35,7 +35,7 @@ public class ManageZoomEvent {
 		}
 
 		// Handle zoom mode changes.
-		if (!MioZoomerConfigManager.CONFIG.features.zoom_mode.value().equals(ConfigEnums.ZoomModes.HOLD)) {
+		if (!MioZoomerConfigManager.CONFIG.features.zoom_mode.value().equals(ZoomModes.HOLD)) {
 			if (!persistentZoom) {
 				persistentZoom = true;
 				lastZooming = true;
@@ -86,7 +86,7 @@ public class ManageZoomEvent {
 		}
 
 		if (doSpyglassSound && !spyglassUse) {
-			boolean soundDirection = !MioZoomerConfigManager.CONFIG.features.zoom_mode.value().equals(ConfigEnums.ZoomModes.PERSISTENT)
+			boolean soundDirection = !MioZoomerConfigManager.CONFIG.features.zoom_mode.value().equals(ZoomModes.PERSISTENT)
 				? ZoomUtils.ZOOMER_ZOOM.getZoom()
 				: keyPress;
 

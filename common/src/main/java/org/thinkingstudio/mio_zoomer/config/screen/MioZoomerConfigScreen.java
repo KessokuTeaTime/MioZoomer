@@ -1,36 +1,37 @@
 package org.thinkingstudio.mio_zoomer.config.screen;
 
-import java.lang.reflect.Field;
 import java.util.Map;
 
+import org.thinkingstudio.mio_zoomer.config.MioZoomerConfigManager;
+import net.minecraft.util.CommonColors;
 import org.quiltmc.config.api.Constraint;
 import org.quiltmc.config.api.values.TrackedValue;
 import org.quiltmc.config.api.values.ValueTreeNode;
 
-import net.minecraft.util.CommonColors;
-import org.thinkingstudio.mio_zoomer.config.ConfigEnums;
+import org.thinkingstudio.mio_zoomer.config.ConfigEnums.CinematicCameraOptions;
+import org.thinkingstudio.mio_zoomer.config.ConfigEnums.ConfigEnum;
+import org.thinkingstudio.mio_zoomer.config.ConfigEnums.SpyglassDependency;
+import org.thinkingstudio.mio_zoomer.config.ConfigEnums.ZoomModes;
+import org.thinkingstudio.mio_zoomer.config.ConfigEnums.ZoomOverlays;
+import org.thinkingstudio.mio_zoomer.config.ConfigEnums.ZoomPresets;
+import org.thinkingstudio.mio_zoomer.config.ConfigEnums.ZoomTransitionOptions;
 import org.thinkingstudio.mio_zoomer.config.metadata.WidgetSize;
 import org.thinkingstudio.mio_zoomer.config.screen.widgets.CustomTextureBackground;
 import org.thinkingstudio.mio_zoomer.config.screen.widgets.SpruceBoundedDoubleInputOption;
 import org.thinkingstudio.mio_zoomer.config.screen.widgets.SpruceBoundedIntegerInputOption;
 import org.thinkingstudio.mio_zoomer.utils.ZoomUtils;
-import org.thinkingstudio.obsidianui.Position;
-import org.thinkingstudio.obsidianui.SpruceTexts;
-import org.thinkingstudio.obsidianui.option.SpruceBooleanOption;
-import org.thinkingstudio.obsidianui.option.SpruceCyclingOption;
-import org.thinkingstudio.obsidianui.option.SpruceOption;
-import org.thinkingstudio.obsidianui.option.SpruceSeparatorOption;
-import org.thinkingstudio.obsidianui.option.SpruceSimpleActionOption;
-import org.thinkingstudio.obsidianui.screen.SpruceScreen;
-import org.thinkingstudio.obsidianui.widget.SpruceButtonWidget;
-import org.thinkingstudio.obsidianui.widget.container.SpruceOptionListWidget;
-import org.thinkingstudio.mio_zoomer.config.MioZoomerConfigManager;
 import it.unimi.dsi.fastutil.objects.Reference2ObjectArrayMap;
 
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.text.Text;
 import net.minecraft.util.Identifier;
+import org.thinkingstudio.obsidianui.Position;
+import org.thinkingstudio.obsidianui.SpruceTexts;
+import org.thinkingstudio.obsidianui.option.*;
+import org.thinkingstudio.obsidianui.screen.SpruceScreen;
+import org.thinkingstudio.obsidianui.widget.SpruceButtonWidget;
+import org.thinkingstudio.obsidianui.widget.container.SpruceOptionListWidget;
 
 // TODO - Use a completely different approach that allows for a more user-friendly config screen and that yet is easy to make/edit
 public class MioZoomerConfigScreen extends SpruceScreen {
@@ -39,7 +40,7 @@ public class MioZoomerConfigScreen extends SpruceScreen {
 
 	private SpruceOptionListWidget list;
 	private final Screen parent;
-	private ConfigEnums.ZoomPresets preset;
+	private ZoomPresets preset;
 
 	private final Map<TrackedValue<Object>, Object> newValues;
 	private SpruceOption optionBuffer;
@@ -47,7 +48,7 @@ public class MioZoomerConfigScreen extends SpruceScreen {
 	public MioZoomerConfigScreen(Screen parent) {
 		super(Text.translatable("config.mio_zoomer.title"));
 		this.parent = parent;
-		this.preset = ConfigEnums.ZoomPresets.DEFAULT;
+		this.preset = ZoomPresets.DEFAULT;
 
 		this.newValues = new Reference2ObjectArrayMap<>();
 		this.optionBuffer = null;
@@ -187,8 +188,8 @@ public class MioZoomerConfigScreen extends SpruceScreen {
 							for (Constraint<?> constraint : trackedValue.constraints()) {
 								if (constraint instanceof Constraint.Range<?>) {
 									try {
-										Field minField = Constraint.Range.class.getDeclaredField("min");
-										Field maxField = Constraint.Range.class.getDeclaredField("max");
+										var minField = Constraint.Range.class.getDeclaredField("min");
+										var maxField = Constraint.Range.class.getDeclaredField("max");
 
 										minField.setAccessible(true);
 										maxField.setAccessible(true);
@@ -208,10 +209,10 @@ public class MioZoomerConfigScreen extends SpruceScreen {
 								value -> this.newValues.replace(trackie, value),
 								Text.translatable(String.format("config.mio_zoomer.%s.tooltip", trackedValue.key())));
 							this.addOptionToList(option, size);
-						} else if (trackedValue.value() instanceof ConfigEnums.ConfigEnum) {
+						} else if (trackedValue.value() instanceof ConfigEnum) {
 							var option = new SpruceCyclingOption(
 								String.format("config.mio_zoomer.%s", trackedValue.key()),
-								amount -> this.newValues.replace(trackie, ((ConfigEnums.ConfigEnum) this.newValues.get(trackie)).next()),
+								amount -> this.newValues.replace(trackie, ((ConfigEnum) this.newValues.get(trackie)).next()),
 								option2 -> getCyclingOptionText(String.format("config.mio_zoomer.%s.%s", trackedValue.key(), this.newValues.get(trackie).toString().toLowerCase()), option2.getPrefix()),
 								Text.translatable(String.format("config.mio_zoomer.%s.tooltip", trackedValue.key())));
 							this.addOptionToList(option, size);
@@ -237,7 +238,7 @@ public class MioZoomerConfigScreen extends SpruceScreen {
 		// Preset
 		var presetOption = new SpruceCyclingOption(
 			"config.mio_zoomer.reset.preset",
-			amount -> this.preset = (ConfigEnums.ZoomPresets) this.preset.next(),
+			amount -> this.preset = (ZoomPresets) this.preset.next(),
 			option -> getCyclingOptionText(String.format("config.mio_zoomer.reset.preset.%s", this.preset.toString().toLowerCase()), option.getPrefix()),
 			Text.translatable("config.mio_zoomer.reset.preset.tooltip"));
 
@@ -275,20 +276,20 @@ public class MioZoomerConfigScreen extends SpruceScreen {
 	}
 
 	@SuppressWarnings("unchecked")
-	public void resetToPreset(ConfigEnums.ZoomPresets preset) {
+	public void resetToPreset(ZoomPresets preset) {
 		Map<TrackedValue<?>, Object> presets = Map.ofEntries(
-			Map.entry(MioZoomerConfigManager.CONFIG.features.cinematic_camera, preset == ConfigEnums.ZoomPresets.CLASSIC ? ConfigEnums.CinematicCameraOptions.VANILLA : ConfigEnums.CinematicCameraOptions.OFF),
-			Map.entry(MioZoomerConfigManager.CONFIG.features.reduce_sensitivity, preset == ConfigEnums.ZoomPresets.CLASSIC ? false : true),
-			Map.entry(MioZoomerConfigManager.CONFIG.features.zoom_transition, preset == ConfigEnums.ZoomPresets.CLASSIC ? ConfigEnums.ZoomTransitionOptions.OFF : ConfigEnums.ZoomTransitionOptions.SMOOTH),
-			Map.entry(MioZoomerConfigManager.CONFIG.features.zoom_mode, preset == ConfigEnums.ZoomPresets.PERSISTENT ? ConfigEnums.ZoomModes.PERSISTENT : ConfigEnums.ZoomModes.HOLD),
+			Map.entry(MioZoomerConfigManager.CONFIG.features.cinematic_camera, preset == ZoomPresets.CLASSIC ? CinematicCameraOptions.VANILLA : CinematicCameraOptions.OFF),
+			Map.entry(MioZoomerConfigManager.CONFIG.features.reduce_sensitivity, preset == ZoomPresets.CLASSIC ? false : true),
+			Map.entry(MioZoomerConfigManager.CONFIG.features.zoom_transition, preset == ZoomPresets.CLASSIC ? ZoomTransitionOptions.OFF : ZoomTransitionOptions.SMOOTH),
+			Map.entry(MioZoomerConfigManager.CONFIG.features.zoom_mode, preset == ZoomPresets.PERSISTENT ? ZoomModes.PERSISTENT : ZoomModes.HOLD),
 			Map.entry(MioZoomerConfigManager.CONFIG.features.zoom_scrolling, switch (preset) {
 				case CLASSIC -> false;
 				case SPYGLASS -> false;
 				default -> true;
 			}),
-			Map.entry(MioZoomerConfigManager.CONFIG.features.extra_key_binds, preset == ConfigEnums.ZoomPresets.CLASSIC ? false : true),
-			Map.entry(MioZoomerConfigManager.CONFIG.features.zoom_overlay, preset == ConfigEnums.ZoomPresets.SPYGLASS ? ConfigEnums.ZoomOverlays.SPYGLASS : ConfigEnums.ZoomOverlays.OFF),
-			Map.entry(MioZoomerConfigManager.CONFIG.features.spyglass_dependency, preset == ConfigEnums.ZoomPresets.SPYGLASS ? ConfigEnums.SpyglassDependency.BOTH : ConfigEnums.SpyglassDependency.OFF),
+			Map.entry(MioZoomerConfigManager.CONFIG.features.extra_key_binds, preset == ZoomPresets.CLASSIC ? false : true),
+			Map.entry(MioZoomerConfigManager.CONFIG.features.zoom_overlay, preset == ZoomPresets.SPYGLASS ? ZoomOverlays.SPYGLASS : ZoomOverlays.OFF),
+			Map.entry(MioZoomerConfigManager.CONFIG.features.spyglass_dependency, preset == ZoomPresets.SPYGLASS ? SpyglassDependency.BOTH : SpyglassDependency.OFF),
 			Map.entry(MioZoomerConfigManager.CONFIG.values.zoom_divisor, switch (preset) {
 				case PERSISTENT -> 1.0D;
 				case SPYGLASS -> 10.0D;
@@ -296,17 +297,17 @@ public class MioZoomerConfigScreen extends SpruceScreen {
 			}),
 			Map.entry(MioZoomerConfigManager.CONFIG.values.minimum_zoom_divisor, 1.0D),
 			Map.entry(MioZoomerConfigManager.CONFIG.values.maximum_zoom_divisor, 50.0D),
-			Map.entry(MioZoomerConfigManager.CONFIG.values.upper_scroll_steps, preset == ConfigEnums.ZoomPresets.SPYGLASS ? 16 : 20),
-			Map.entry(MioZoomerConfigManager.CONFIG.values.lower_scroll_steps, preset == ConfigEnums.ZoomPresets.SPYGLASS ? 8 : 4),
-			Map.entry(MioZoomerConfigManager.CONFIG.values.smooth_multiplier, preset == ConfigEnums.ZoomPresets.SPYGLASS ? 0.5D : 0.75D),
+			Map.entry(MioZoomerConfigManager.CONFIG.values.upper_scroll_steps, preset == ZoomPresets.SPYGLASS ? 16 : 20),
+			Map.entry(MioZoomerConfigManager.CONFIG.values.lower_scroll_steps, preset == ZoomPresets.SPYGLASS ? 8 : 4),
+			Map.entry(MioZoomerConfigManager.CONFIG.values.smooth_multiplier, preset == ZoomPresets.SPYGLASS ? 0.5D : 0.75D),
 			Map.entry(MioZoomerConfigManager.CONFIG.values.cinematic_multiplier, 4.0D),
 			Map.entry(MioZoomerConfigManager.CONFIG.values.minimum_linear_step, 0.125D),
 			Map.entry(MioZoomerConfigManager.CONFIG.values.maximum_linear_step, 0.25D),
-			Map.entry(MioZoomerConfigManager.CONFIG.tweaks.reset_zoom_with_mouse, preset == ConfigEnums.ZoomPresets.CLASSIC ? false : true),
+			Map.entry(MioZoomerConfigManager.CONFIG.tweaks.reset_zoom_with_mouse, preset == ZoomPresets.CLASSIC ? false : true),
 			Map.entry(MioZoomerConfigManager.CONFIG.tweaks.forget_zoom_divisor, true),
 			Map.entry(MioZoomerConfigManager.CONFIG.tweaks.unbind_conflicting_key, false),
-			Map.entry(MioZoomerConfigManager.CONFIG.tweaks.use_spyglass_texture, preset == ConfigEnums.ZoomPresets.SPYGLASS ? true : false),
-			Map.entry(MioZoomerConfigManager.CONFIG.tweaks.use_spyglass_sounds, preset == ConfigEnums.ZoomPresets.SPYGLASS ? true : false),
+			Map.entry(MioZoomerConfigManager.CONFIG.tweaks.use_spyglass_texture, preset == ZoomPresets.SPYGLASS ? true : false),
+			Map.entry(MioZoomerConfigManager.CONFIG.tweaks.use_spyglass_sounds, preset == ZoomPresets.SPYGLASS ? true : false),
 			Map.entry(MioZoomerConfigManager.CONFIG.tweaks.show_restriction_toasts, true),
 			//Map.entry(MioZoomerConfigManager.CONFIG.tweaks.print_owo_on_start, preset == ZoomPresets.CLASSIC ? false : true)
 			Map.entry(MioZoomerConfigManager.CONFIG.tweaks.print_owo_on_start, false)

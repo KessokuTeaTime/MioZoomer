@@ -2,17 +2,18 @@ package org.thinkingstudio.mio_zoomer.zoom;
 
 import com.mojang.blaze3d.systems.RenderSystem;
 
+import org.thinkingstudio.mio_zoomer.MioZoomerClientMod;
 import org.thinkingstudio.mio_zoomer.config.MioZoomerConfigManager;
+import org.thinkingstudio.mio_zoomer.config.ConfigEnums.ZoomTransitionOptions;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.MathHelper;
-import org.thinkingstudio.mio_zoomer.config.ConfigEnums;
 import org.thinkingstudio.zoomerlibrary.api.ZoomOverlay;
 
 // Implements the zoom overlay
 public class ZoomerZoomOverlay implements ZoomOverlay {
-    private static final Identifier OVERLAY_ID = new Identifier("mio_zoomer:zoom_overlay");
+    private static final Identifier OVERLAY_ID = new Identifier(MioZoomerClientMod.MODID + ":zoom_overlay");
     private final Identifier textureId;
     private boolean active;
     private final MinecraftClient client;
@@ -72,10 +73,10 @@ public class ZoomerZoomOverlay implements ZoomOverlay {
 
         lastZoomOverlayAlpha = zoomOverlayAlpha;
 
-		if (MioZoomerConfigManager.CONFIG.features.zoom_transition.value().equals(ConfigEnums.ZoomTransitionOptions.SMOOTH)) {
-			zoomOverlayAlpha += (float) ((zoomMultiplier - zoomOverlayAlpha) * MioZoomerConfigManager.CONFIG.values.smooth_multiplier.value());
-		} else if (MioZoomerConfigManager.CONFIG.features.zoom_transition.value().equals(ConfigEnums.ZoomTransitionOptions.LINEAR)) {
-			double linearStep = MathHelper.clamp(
+        if (MioZoomerConfigManager.CONFIG.features.zoom_transition.value().equals(ZoomTransitionOptions.SMOOTH)) {
+            zoomOverlayAlpha += (float) ((zoomMultiplier - zoomOverlayAlpha) * MioZoomerConfigManager.CONFIG.values.smooth_multiplier.value());
+        } else if (MioZoomerConfigManager.CONFIG.features.zoom_transition.value().equals(ZoomTransitionOptions.LINEAR)) {
+            double linearStep = MathHelper.clamp(
 				1.0F / divisor,
 				MioZoomerConfigManager.CONFIG.values.minimum_linear_step.value(),
 				MioZoomerConfigManager.CONFIG.values.maximum_linear_step.value()

@@ -2,7 +2,7 @@ package org.thinkingstudio.mio_zoomer.utils;
 
 import java.util.Random;
 
-// The most humorous part of Mio Zoomer ^w^
+// The most humorous part of Ok Zoomer ^w^
 public class OwoUtils {
 	public static final String[] OWO_ARRAY = {
 		"owo", "OwO", "uwu", "nwn", "^w^", ">w<", "Owo", "owO",
@@ -19,6 +19,6 @@ public class OwoUtils {
 
 	public static void printOwo() {
 		Random random = new Random();
-		ZoomUtils.LOGGER.info(String.format("[Mio Zoomer] %s what's this", OWO_ARRAY[random.nextInt(OWO_ARRAY.length)]));
+		ZoomUtils.LOGGER.info(String.format("[Ok Zoomer] %s what's this", OWO_ARRAY[random.nextInt(OWO_ARRAY.length)]));
 	}
 }

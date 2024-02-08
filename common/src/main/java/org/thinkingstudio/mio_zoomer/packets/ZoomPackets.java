@@ -1,24 +1,25 @@
 package org.thinkingstudio.mio_zoomer.packets;
 
+import org.thinkingstudio.mio_zoomer.MioZoomerClientMod;
 import org.thinkingstudio.mio_zoomer.config.MioZoomerConfigManager;
+import org.thinkingstudio.mio_zoomer.config.ConfigEnums.CinematicCameraOptions;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.toast.SystemToast;
 import net.minecraft.text.Text;
 import net.minecraft.util.Identifier;
-import org.thinkingstudio.mio_zoomer.config.ConfigEnums;
 
 /* 	Manages the zoom packets and their signals.
 	These packets are intended to be used by the future "Zoomer Boomer" server-side mod,
 	although developers are welcome to independently transmit them for other loaders */
 public class ZoomPackets {
 	// The IDs for packets that allows the server to have some control on the zoom.
-	public static final Identifier DISABLE_ZOOM_PACKET_ID = new Identifier("mio_zoomer", "disable_zoom");
-	public static final Identifier DISABLE_ZOOM_SCROLLING_PACKET_ID = new Identifier("mio_zoomer", "disable_zoom_scrolling");
-	public static final Identifier FORCE_CLASSIC_MODE_PACKET_ID = new Identifier("mio_zoomer", "force_classic_mode");
-	public static final Identifier FORCE_ZOOM_DIVISOR_PACKET_ID = new Identifier("mio_zoomer", "force_zoom_divisor");
-	public static final Identifier ACKNOWLEDGE_MOD_PACKET_ID = new Identifier("mio_zoomer", "acknowledge_mod");
-	public static final Identifier FORCE_SPYGLASS_PACKET_ID = new Identifier("mio_zoomer", "force_spyglass");
-	public static final Identifier FORCE_SPYGLASS_OVERLAY_PACKET_ID = new Identifier("mio_zoomer", "force_spyglass_overlay");
+	public static final Identifier DISABLE_ZOOM_PACKET_ID = new Identifier(MioZoomerClientMod.MODID, "disable_zoom");
+	public static final Identifier DISABLE_ZOOM_SCROLLING_PACKET_ID = new Identifier(MioZoomerClientMod.MODID, "disable_zoom_scrolling");
+	public static final Identifier FORCE_CLASSIC_MODE_PACKET_ID = new Identifier(MioZoomerClientMod.MODID, "force_classic_mode");
+	public static final Identifier FORCE_ZOOM_DIVISOR_PACKET_ID = new Identifier(MioZoomerClientMod.MODID, "force_zoom_divisor");
+	public static final Identifier ACKNOWLEDGE_MOD_PACKET_ID = new Identifier(MioZoomerClientMod.MODID, "acknowledge_mod");
+	public static final Identifier FORCE_SPYGLASS_PACKET_ID = new Identifier(MioZoomerClientMod.MODID, "force_spyglass");
+	public static final Identifier FORCE_SPYGLASS_OVERLAY_PACKET_ID = new Identifier(MioZoomerClientMod.MODID, "force_spyglass_overlay");
 
 	public enum Acknowledgement {
 		NONE,
@@ -108,7 +109,7 @@ public class ZoomPackets {
 	}
 
 	public static void applyClassicMode() {
-		MioZoomerConfigManager.CONFIG.features.cinematic_camera.setOverride(ConfigEnums.CinematicCameraOptions.VANILLA);
+		MioZoomerConfigManager.CONFIG.features.cinematic_camera.setOverride(CinematicCameraOptions.VANILLA);
 		MioZoomerConfigManager.CONFIG.features.reduce_sensitivity.setOverride(false);
 		MioZoomerConfigManager.CONFIG.values.zoom_divisor.setOverride(4.0D);
 	}
