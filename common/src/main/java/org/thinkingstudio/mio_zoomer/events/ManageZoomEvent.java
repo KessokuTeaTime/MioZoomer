@@ -3,7 +3,7 @@ package org.thinkingstudio.mio_zoomer.events;
 import org.thinkingstudio.mio_zoomer.config.MioZoomerConfigManager;
 import org.thinkingstudio.mio_zoomer.config.ConfigEnums.ZoomModes;
 import org.thinkingstudio.mio_zoomer.key_binds.ZoomKeyBinds;
-import org.thinkingstudio.mio_zoomer.packets.ZoomPackets;
+import org.thinkingstudio.mio_zoomer.network.ZoomNetwork;
 import org.thinkingstudio.mio_zoomer.utils.ZoomUtils;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.sound.SoundEvents;
@@ -21,7 +21,7 @@ public class ManageZoomEvent {
 		if (client.player == null) return;
 
 		// If zoom is disabled, do not allow for zooming at all
-		boolean disableZoom = ZoomPackets.getDisableZoom() ||
+		boolean disableZoom = ZoomNetwork.getDisableZoom() ||
 			(switch (MioZoomerConfigManager.CONFIG.features.spyglass_dependency.value()) {
 				case REQUIRE_ITEM, BOTH -> true;
 				default -> false;

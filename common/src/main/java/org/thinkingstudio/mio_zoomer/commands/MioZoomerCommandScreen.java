@@ -3,7 +3,7 @@ package org.thinkingstudio.mio_zoomer.commands;
 import org.thinkingstudio.mio_zoomer.config.MioZoomerConfigManager;
 import org.thinkingstudio.mio_zoomer.config.screen.MioZoomerConfigScreen;
 import org.thinkingstudio.mio_zoomer.config.screen.widgets.SpruceLabelOption;
-import org.thinkingstudio.mio_zoomer.packets.ZoomPackets;
+import org.thinkingstudio.mio_zoomer.network.ZoomNetwork;
 
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.text.Text;
@@ -43,25 +43,25 @@ public class MioZoomerCommandScreen extends SpruceScreen {
 		list.addSingleOptionEntry(restrictionsSeparator);
 
 
-		if (ZoomPackets.getHasRestrictions()) {
+		if (ZoomNetwork.getHasRestrictions()) {
 			list.addSingleOptionEntry(new SpruceLabelOption("command.mio_zoomer.restrictions.acknowledgement", true));
 		}
 
-		if (ZoomPackets.getDisableZoom()) {
+		if (ZoomNetwork.getDisableZoom()) {
 			list.addSingleOptionEntry(new SpruceLabelOption("command.mio_zoomer.restrictions.disable_zoom", true));
 		}
 
-		if (ZoomPackets.getDisableZoomScrolling()) {
+		if (ZoomNetwork.getDisableZoomScrolling()) {
 			list.addSingleOptionEntry(new SpruceLabelOption("command.mio_zoomer.restrictions.disable_zoom_scrolling", true));
 		}
 
-		if (ZoomPackets.getForceClassicMode()) {
+		if (ZoomNetwork.getForceClassicMode()) {
 			list.addSingleOptionEntry(new SpruceLabelOption("command.mio_zoomer.restrictions.force_classic_mode", true));
 		}
 
-		if (ZoomPackets.getForceZoomDivisors()) {
-			double minimumZoomDivisor = ZoomPackets.getMinimumZoomDivisor();
-			double maximumZoomDivisor = ZoomPackets.getMaximumZoomDivisor();
+		if (ZoomNetwork.getForceZoomDivisors()) {
+			double minimumZoomDivisor = ZoomNetwork.getMinimumZoomDivisor();
+			double maximumZoomDivisor = ZoomNetwork.getMaximumZoomDivisor();
 			list.addSingleOptionEntry(new SpruceLabelOption(
 				"command.mio_zoomer.restrictions.force_zoom_divisors",
 				minimumZoomDivisor != maximumZoomDivisor
@@ -71,7 +71,7 @@ public class MioZoomerCommandScreen extends SpruceScreen {
 			);
 		}
 
-		if (ZoomPackets.getSpyglassDependency()) {
+		if (ZoomNetwork.getSpyglassDependency()) {
 			var key = switch (MioZoomerConfigManager.CONFIG.features.spyglass_dependency.value()) {
 				case REQUIRE_ITEM -> "command.mio_zoomer.restrictions.force_spyglass.require_item";
 				case REPLACE_ZOOM -> "command.mio_zoomer.restrictions.force_spyglass.replace_zoom";
@@ -81,12 +81,12 @@ public class MioZoomerCommandScreen extends SpruceScreen {
 			list.addSingleOptionEntry(new SpruceLabelOption(key, true));
 		}
 
-		if (ZoomPackets.getSpyglassOverlay()) {
+		if (ZoomNetwork.getSpyglassOverlay()) {
 			list.addSingleOptionEntry(new SpruceLabelOption("command.mio_zoomer.restrictions.force_spyglass_overlay", true));
 		}
 
-		if (!ZoomPackets.getHasRestrictions()) {
-			boolean acknowledged = ZoomPackets.getAcknowledgement().equals(ZoomPackets.Acknowledgement.HAS_NO_RESTRICTIONS);
+		if (!ZoomNetwork.getHasRestrictions()) {
+			boolean acknowledged = ZoomNetwork.getAcknowledgement().equals(ZoomNetwork.Acknowledgement.HAS_NO_RESTRICTIONS);
 			list.addSingleOptionEntry(new SpruceLabelOption(acknowledged
 				? "command.mio_zoomer.restrictions.no_restrictions.acknowledged"
 				: "command.mio_zoomer.restrictions.no_restrictions",

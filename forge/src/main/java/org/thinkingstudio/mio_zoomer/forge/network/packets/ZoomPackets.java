@@ -1,61 +1,17 @@
-package org.thinkingstudio.mio_zoomer.forge.packets;
+package org.thinkingstudio.mio_zoomer.forge.network.packets;
 
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.network.PacketByteBuf;
 import net.minecraft.text.Text;
-import net.minecraft.util.Identifier;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.fml.DistExecutor;
 import net.minecraftforge.network.NetworkEvent;
-import net.minecraftforge.network.NetworkRegistry;
-import net.minecraftforge.network.event.EventNetworkChannel;
-import net.minecraftforge.network.simple.SimpleChannel;
-import org.thinkingstudio.mio_zoomer.MioZoomerClientMod;
 import org.thinkingstudio.mio_zoomer.config.ConfigEnums;
 import org.thinkingstudio.mio_zoomer.config.MioZoomerConfigManager;
-import org.thinkingstudio.mio_zoomer.packets.ZoomPackets;
+import org.thinkingstudio.mio_zoomer.network.ZoomNetwork;
 import org.thinkingstudio.mio_zoomer.utils.ZoomUtils;
 
-import java.util.function.Function;
-
-public class ZoomPacketsForge {
-	public static final SimpleChannel CHANNEL = NetworkRegistry.ChannelBuilder.named(new Identifier(MioZoomerClientMod.MODID, "network"))
-		.clientAcceptedVersions(e -> true)
-		.serverAcceptedVersions(e -> true)
-		.networkProtocolVersion(() -> "hmm :)")
-		.simpleChannel();
-	public static final EventNetworkChannel EXISTENCE_CHANNEL = NetworkRegistry.ChannelBuilder.named(new Identifier(MioZoomerClientMod.MODID, "exists"))
-		.clientAcceptedVersions(e -> true)
-		.serverAcceptedVersions(e -> true)
-		.networkProtocolVersion(() -> "Why'd I exist?!")
-		.eventNetworkChannel();
-
-
-	public static class ZoomPacketRegister {
-		int packetIndex = 0;
-
-		<T extends ZoomPacket> void registerPacket(Class<T> clazz, Function<PacketByteBuf, T> decode) {
-			CHANNEL.messageBuilder(clazz, packetIndex++)
-				.encoder(ZoomPacket::encode)
-				.decoder(decode)
-				.consumerMainThread((packet, supplier) -> packet.handle(supplier.get()))
-				.add();
-		}
-	}
-
-	//Registers all the packets
-	public static void registerPackets() {
-		ZoomPacketRegister packetRegister = new ZoomPacketRegister();
-		packetRegister.registerPacket(DisableZoomPacket.class, DisableZoomPacket::decode);
-		packetRegister.registerPacket(DisableZoomScrollingPacket.class, DisableZoomScrollingPacket::decode);
-		packetRegister.registerPacket(ForceClassicModePacket.class, ForceClassicModePacket::decode);
-		packetRegister.registerPacket(ForceZoomDivisorPacket.class, ForceZoomDivisorPacket::decode);
-		packetRegister.registerPacket(AcknowledgeModPacket.class, AcknowledgeModPacket::decode);
-		packetRegister.registerPacket(ForceSpyglassPacket.class, ForceSpyglassPacket::decode);
-		packetRegister.registerPacket(ForceSpyglassOverlayPacket.class, ForceSpyglassOverlayPacket::decode);
-		packetRegister.registerPacket(ResetRestrictionsPacket.class, ResetRestrictionsPacket::decode);
-	}
-
+public class ZoomPackets {
 	/**
 	 * The "Disable Zoom" packet,
 	 * if this packet is received, Mio Zoomer's zoom will be disabled completely while in the server
@@ -72,8 +28,8 @@ public class ZoomPacketsForge {
 		@Override
 		public void handle(NetworkEvent.Context context) {
 			ZoomUtils.LOGGER.info("[Mio Zoomer] This server has disabled zooming");
-			ZoomPackets.disableZoom = disableZoom;
-			ZoomPackets.checkRestrictions();
+			ZoomNetwork.disableZoom = disableZoom;
+			ZoomNetwork.checkRestrictions();
 		}
 
 		public static DisableZoomPacket decode(PacketByteBuf buf) {
@@ -97,9 +53,9 @@ public class ZoomPacketsForge {
 		@Override
 		public void handle(NetworkEvent.Context context) {
 			ZoomUtils.LOGGER.info("[Mio Zoomer] This server has disabled zoom scrolling");
-			ZoomPackets.applyDisableZoomScrolling();
-			ZoomPackets.disableZoomScrolling = disableScrolling;
-			ZoomPackets.checkRestrictions();
+			ZoomNetwork.applyDisableZoomScrolling();
+			ZoomNetwork.disableZoomScrolling = disableScrolling;
+			ZoomNetwork.checkRestrictions();
 		}
 
 		public static DisableZoomScrollingPacket decode(PacketByteBuf buf) {
@@ -124,12 +80,12 @@ public class ZoomPacketsForge {
 		@Override
 		public void handle(NetworkEvent.Context context) {
 			ZoomUtils.LOGGER.info("[Mio Zoomer] This server has imposed classic mode");
-			ZoomPackets.disableZoomScrolling = forceClassicMode;
-			ZoomPackets.forceClassicMode = forceClassicMode;
-			ZoomPackets.applyDisableZoomScrolling();
-			ZoomPackets.applyClassicMode();
+			ZoomNetwork.disableZoomScrolling = forceClassicMode;
+			ZoomNetwork.forceClassicMode = forceClassicMode;
+			ZoomNetwork.applyDisableZoomScrolling();
+			ZoomNetwork.applyClassicMode();
 			MioZoomerConfigManager.configureZoomInstance();
-			ZoomPackets.checkRestrictions();
+			ZoomNetwork.checkRestrictions();
 		}
 
 		public static ForceClassicModePacket decode(PacketByteBuf buf) {
@@ -158,11 +114,11 @@ public class ZoomPacketsForge {
 				ZoomUtils.LOGGER.info(String.format("[Mio Zoomer] This server has attempted to set invalid divisor values! (min %s, max %s)", minDouble, maxDouble));
 			} else {
 				ZoomUtils.LOGGER.info(String.format("[Mio Zoomer] This server has set the zoom divisors to minimum %s and maximum %s", minDouble, maxDouble));
-				ZoomPackets.maximumZoomDivisor = maxDouble;
-				ZoomPackets.minimumZoomDivisor = minDouble;
-				ZoomPackets.forceZoomDivisors = true;
+				ZoomNetwork.maximumZoomDivisor = maxDouble;
+				ZoomNetwork.minimumZoomDivisor = minDouble;
+				ZoomNetwork.forceZoomDivisors = true;
 				MioZoomerConfigManager.configureZoomInstance();
-				ZoomPackets.checkRestrictions();
+				ZoomNetwork.checkRestrictions();
 			}
 		}
 
@@ -179,7 +135,7 @@ public class ZoomPacketsForge {
 	 * <p>
 	 * Arguments: one boolean, false for restricting, true for restrictionless
 	 */
-	public static record AcknowledgeModPacket(ZoomPackets.Acknowledgement restrictions) implements ZoomPacket {
+	public static record AcknowledgeModPacket(ZoomNetwork.Acknowledgement restrictions) implements ZoomPacket {
 		@Override
 		public void encode(PacketByteBuf buf) {
 			buf.writeEnumConstant(restrictions);
@@ -188,13 +144,13 @@ public class ZoomPacketsForge {
 		@Override
 		public void handle(NetworkEvent.Context context) {
 			DistExecutor.unsafeRunWhenOn(Dist.CLIENT, () -> () -> {
-				if (restrictions == ZoomPackets.Acknowledgement.HAS_RESTRICTIONS) {
-					if (ZoomPackets.getAcknowledgement().equals(ZoomPackets.Acknowledgement.HAS_RESTRICTIONS)) {
+				if (restrictions == ZoomNetwork.Acknowledgement.HAS_RESTRICTIONS) {
+					if (ZoomNetwork.getAcknowledgement().equals(ZoomNetwork.Acknowledgement.HAS_RESTRICTIONS)) {
 						ZoomUtils.LOGGER.info("[Mio Zoomer] This server acknowledges the mod and has established some restrictions");
 						this.doSendToast(Text.translatable("toast.mio_zoomer.acknowledge_mod_restrictions"));
 					}
 				} else {
-					if (ZoomPackets.getAcknowledgement().equals(ZoomPackets.Acknowledgement.HAS_NO_RESTRICTIONS)) {
+					if (ZoomNetwork.getAcknowledgement().equals(ZoomNetwork.Acknowledgement.HAS_NO_RESTRICTIONS)) {
 						ZoomUtils.LOGGER.info("[Mio Zoomer] This server acknowledges the mod and establishes no restrictions");
 						this.doSendToast(Text.translatable("toast.mio_zoomer.acknowledge_mod"));
 					}
@@ -203,11 +159,11 @@ public class ZoomPacketsForge {
 		}
 
 		public static AcknowledgeModPacket decode(PacketByteBuf buf) {
-			return new AcknowledgeModPacket(buf.readEnumConstant(ZoomPackets.Acknowledgement.class));
+			return new AcknowledgeModPacket(buf.readEnumConstant(ZoomNetwork.Acknowledgement.class));
 		}
 
 		private void doSendToast(Text text) {
-			ZoomPackets.sendToast(MinecraftClient.getInstance(), text);
+			ZoomNetwork.sendToast(MinecraftClient.getInstance(), text);
 		}
 	}
 
@@ -231,9 +187,9 @@ public class ZoomPacketsForge {
 //				? (replaceZoom ? ConfigEnums.SpyglassDependency.BOTH : ConfigEnums.SpyglassDependency.REQUIRE_ITEM)
 //				: (replaceZoom ? ConfigEnums.SpyglassDependency.REPLACE_ZOOM : null));
 			MioZoomerConfigManager.CONFIG.features.spyglass_dependency.setOverride(dependency == ConfigEnums.SpyglassDependency.OFF ? null : dependency);
-			ZoomPackets.spyglassDependency = true;
+			ZoomNetwork.spyglassDependency = true;
 
-			ZoomPackets.checkRestrictions();
+			ZoomNetwork.checkRestrictions();
 		}
 
 		public static ForceSpyglassPacket decode(PacketByteBuf buf) {
@@ -258,8 +214,8 @@ public class ZoomPacketsForge {
 		public void handle(NetworkEvent.Context context) {
 			ZoomUtils.LOGGER.info(String.format("[Mio Zoomer] This server has imposed a spyglass overlay on the zoom"));
 			MioZoomerConfigManager.CONFIG.features.zoom_overlay.setOverride(ConfigEnums.ZoomOverlays.SPYGLASS);
-			ZoomPackets.spyglassOverlay = true;
-			ZoomPackets.checkRestrictions();
+			ZoomNetwork.spyglassOverlay = true;
+			ZoomNetwork.checkRestrictions();
 		}
 
 		public static ForceSpyglassOverlayPacket decode(PacketByteBuf buf) {
@@ -275,8 +231,8 @@ public class ZoomPacketsForge {
 
 		@Override
 		public void handle(NetworkEvent.Context context) {
-			if (ZoomPackets.hasRestrictions) {
-				ZoomPackets.resetPacketSignals();
+			if (ZoomNetwork.hasRestrictions) {
+				ZoomNetwork.resetPacketSignals();
 			}
 		}
 

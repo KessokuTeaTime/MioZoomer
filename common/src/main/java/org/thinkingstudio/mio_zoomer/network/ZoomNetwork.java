@@ -1,4 +1,4 @@
-package org.thinkingstudio.mio_zoomer.packets;
+package org.thinkingstudio.mio_zoomer.network;
 
 import org.thinkingstudio.mio_zoomer.MioZoomerClientMod;
 import org.thinkingstudio.mio_zoomer.config.MioZoomerConfigManager;
@@ -8,11 +8,11 @@ import net.minecraft.client.toast.SystemToast;
 import net.minecraft.text.Text;
 import net.minecraft.util.Identifier;
 
-/* 	Manages the zoom packets and their signals.
-	These packets are intended to be used by the future "Zoomer Boomer" server-side mod,
+/* 	Manages the zoom network and their signals.
+	These network are intended to be used by the future "Zoomer Boomer" server-side mod,
 	although developers are welcome to independently transmit them for other loaders */
-public class ZoomPackets {
-	// The IDs for packets that allows the server to have some control on the zoom.
+public class ZoomNetwork {
+	// The IDs for network that allows the server to have some control on the zoom.
 	public static final Identifier DISABLE_ZOOM_PACKET_ID = new Identifier(MioZoomerClientMod.MODID, "disable_zoom");
 	public static final Identifier DISABLE_ZOOM_SCROLLING_PACKET_ID = new Identifier(MioZoomerClientMod.MODID, "disable_zoom_scrolling");
 	public static final Identifier FORCE_CLASSIC_MODE_PACKET_ID = new Identifier(MioZoomerClientMod.MODID, "force_classic_mode");
@@ -27,7 +27,7 @@ public class ZoomPackets {
 		HAS_NO_RESTRICTIONS
 	}
 
-	// The signals used by other parts of the zoom in order to enforce the packets
+	// The signals used by other parts of the zoom in order to enforce the network
 	public static boolean hasRestrictions = false;
 	public static boolean disableZoom = false;
 	public static boolean disableZoomScrolling = false;
@@ -59,11 +59,11 @@ public class ZoomPackets {
 			|| spyglassDependency
 			|| spyglassOverlay;
 
-		ZoomPackets.hasRestrictions = hasRestrictions;
+		ZoomNetwork.hasRestrictions = hasRestrictions;
 		if (hasRestrictions) {
-			ZoomPackets.acknowledgement = Acknowledgement.HAS_RESTRICTIONS;
+			ZoomNetwork.acknowledgement = Acknowledgement.HAS_RESTRICTIONS;
 		} else {
-			ZoomPackets.acknowledgement = Acknowledgement.HAS_NO_RESTRICTIONS;
+			ZoomNetwork.acknowledgement = Acknowledgement.HAS_NO_RESTRICTIONS;
 		}
 	}
 
@@ -116,22 +116,22 @@ public class ZoomPackets {
 
 	//The method used to reset the signals once left the server.
 	public static void resetPacketSignals() {
-		ZoomPackets.hasRestrictions = false;
-		ZoomPackets.disableZoom = false;
-		ZoomPackets.disableZoomScrolling = false;
+		ZoomNetwork.hasRestrictions = false;
+		ZoomNetwork.disableZoom = false;
+		ZoomNetwork.disableZoomScrolling = false;
 		MioZoomerConfigManager.CONFIG.features.zoom_scrolling.removeOverride();
 		MioZoomerConfigManager.CONFIG.features.extra_key_binds.removeOverride();
-		ZoomPackets.forceClassicMode = false;
+		ZoomNetwork.forceClassicMode = false;
 		MioZoomerConfigManager.CONFIG.features.cinematic_camera.removeOverride();
 		MioZoomerConfigManager.CONFIG.features.reduce_sensitivity.removeOverride();
 		MioZoomerConfigManager.CONFIG.values.zoom_divisor.removeOverride();
-		ZoomPackets.forceZoomDivisors = false;
-		ZoomPackets.maximumZoomDivisor = 0.0D;
-		ZoomPackets.minimumZoomDivisor = 0.0D;
-		ZoomPackets.acknowledgement = Acknowledgement.NONE;
-		ZoomPackets.spyglassDependency = false;
+		ZoomNetwork.forceZoomDivisors = false;
+		ZoomNetwork.maximumZoomDivisor = 0.0D;
+		ZoomNetwork.minimumZoomDivisor = 0.0D;
+		ZoomNetwork.acknowledgement = Acknowledgement.NONE;
+		ZoomNetwork.spyglassDependency = false;
 		MioZoomerConfigManager.CONFIG.features.spyglass_dependency.removeOverride();
-		ZoomPackets.spyglassOverlay = false;
+		ZoomNetwork.spyglassOverlay = false;
 		MioZoomerConfigManager.CONFIG.features.zoom_overlay.removeOverride();
 	}
 }

@@ -1,25 +1,25 @@
-package org.thinkingstudio.mio_zoomer.fabric.packets;
+package org.thinkingstudio.mio_zoomer.fabric.network;
 
 import org.thinkingstudio.mio_zoomer.config.ConfigEnums;
 import org.thinkingstudio.mio_zoomer.config.MioZoomerConfigManager;
-import org.thinkingstudio.mio_zoomer.packets.ZoomPackets;
+import org.thinkingstudio.mio_zoomer.network.ZoomNetwork;
 import org.thinkingstudio.mio_zoomer.utils.ZoomUtils;
 import net.fabricmc.fabric.api.client.networking.v1.ClientPlayConnectionEvents;
 import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
 import net.minecraft.text.Text;
 
-public class ZoomPacketsFabric {
-	//Registers all the packets
+public class ZoomNetworkFabric {
+	//Registers all the network
 	public static void registerPackets() {
 		/*  The "Disable Zoom" packet,
 			If this packet is received, Mio Zoomer's zoom will be disabled completely while in the server
 			Supported since Mio Zoomer 4.0.0 (1.16)
 			Arguments: None */
-		ClientPlayNetworking.registerGlobalReceiver(ZoomPackets.DISABLE_ZOOM_PACKET_ID, (client, handler, buf, sender) -> {
+		ClientPlayNetworking.registerGlobalReceiver(ZoomNetwork.DISABLE_ZOOM_PACKET_ID, (client, handler, buf, sender) -> {
 			client.execute(() -> {
 				ZoomUtils.LOGGER.info("[Mio Zoomer] This server has disabled zooming");
-				ZoomPackets.disableZoom = true;
-				ZoomPackets.checkRestrictions();
+				ZoomNetwork.disableZoom = true;
+				ZoomNetwork.checkRestrictions();
 			});
 		});
 
@@ -27,12 +27,12 @@ public class ZoomPacketsFabric {
 			If this packet is received, zoom scrolling will be disabled while in the server
 			Supported since Mio Zoomer 4.0.0 (1.16)
 			Arguments: None */
-		ClientPlayNetworking.registerGlobalReceiver(ZoomPackets.DISABLE_ZOOM_SCROLLING_PACKET_ID, (client, handler, buf, sender) -> {
+		ClientPlayNetworking.registerGlobalReceiver(ZoomNetwork.DISABLE_ZOOM_SCROLLING_PACKET_ID, (client, handler, buf, sender) -> {
 			client.execute(() -> {
 				ZoomUtils.LOGGER.info("[Mio Zoomer] This server has disabled zoom scrolling");
-				ZoomPackets.applyDisableZoomScrolling();
-				ZoomPackets.disableZoomScrolling = true;
-				ZoomPackets.checkRestrictions();
+				ZoomNetwork.applyDisableZoomScrolling();
+				ZoomNetwork.disableZoomScrolling = true;
+				ZoomNetwork.checkRestrictions();
 			});
 		});
 
@@ -41,15 +41,15 @@ public class ZoomPacketsFabric {
 			under the Classic mode, the Classic preset will be forced on all non-cosmetic options
 			Supported since Mio Zoomer 5.0.0-beta.1 (1.17)
 			Arguments: None */
-		ClientPlayNetworking.registerGlobalReceiver(ZoomPackets.FORCE_CLASSIC_MODE_PACKET_ID, (client, handler, buf, sender) -> {
+		ClientPlayNetworking.registerGlobalReceiver(ZoomNetwork.FORCE_CLASSIC_MODE_PACKET_ID, (client, handler, buf, sender) -> {
 			client.execute(() -> {
 				ZoomUtils.LOGGER.info("[Mio Zoomer] This server has imposed classic mode");
-				ZoomPackets.disableZoomScrolling = true;
-				ZoomPackets.forceClassicMode = true;
-				ZoomPackets.applyDisableZoomScrolling();
-				ZoomPackets.applyClassicMode();
+				ZoomNetwork.disableZoomScrolling = true;
+				ZoomNetwork.forceClassicMode = true;
+				ZoomNetwork.applyDisableZoomScrolling();
+				ZoomNetwork.applyClassicMode();
 				MioZoomerConfigManager.configureZoomInstance();
-				ZoomPackets.checkRestrictions();
+				ZoomNetwork.checkRestrictions();
 			});
 		});
 
@@ -58,7 +58,7 @@ public class ZoomPacketsFabric {
 			with the provided arguments
 			Supported since Mio Zoomer 5.0.0-beta.2 (1.17)
 			Arguments: One double (max & min) or two doubles (first is max, second is min) */
-		ClientPlayNetworking.registerGlobalReceiver(ZoomPackets.FORCE_ZOOM_DIVISOR_PACKET_ID, (client, handler, buf, sender) -> {
+		ClientPlayNetworking.registerGlobalReceiver(ZoomNetwork.FORCE_ZOOM_DIVISOR_PACKET_ID, (client, handler, buf, sender) -> {
 			int readableBytes = buf.readableBytes();
 			if (readableBytes == 8 || readableBytes == 16) {
 				double maxDouble = buf.readDouble();
@@ -68,11 +68,11 @@ public class ZoomPacketsFabric {
 						ZoomUtils.LOGGER.info(String.format("[Mio Zoomer] This server has attempted to set invalid divisor values! (min %s, max %s)", minDouble, maxDouble));
 					} else {
 						ZoomUtils.LOGGER.info(String.format("[Mio Zoomer] This server has set the zoom divisors to minimum %s and maximum %s", minDouble, maxDouble));
-						ZoomPackets.maximumZoomDivisor = maxDouble;
-						ZoomPackets.minimumZoomDivisor = minDouble;
-						ZoomPackets.forceZoomDivisors = true;
+						ZoomNetwork.maximumZoomDivisor = maxDouble;
+						ZoomNetwork.minimumZoomDivisor = minDouble;
+						ZoomNetwork.forceZoomDivisors = true;
 						MioZoomerConfigManager.configureZoomInstance();
-						ZoomPackets.checkRestrictions();
+						ZoomNetwork.checkRestrictions();
 					}
 				});
 			}
@@ -83,19 +83,19 @@ public class ZoomPacketsFabric {
 			the server won't restrict the mod or say that the server controls will be activated
 			Supported since Mio Zoomer 5.0.0-beta.2 (1.17)
 			Arguments: one boolean, false for restricting, true for restrictionless */
-		ClientPlayNetworking.registerGlobalReceiver(ZoomPackets.ACKNOWLEDGE_MOD_PACKET_ID, (client, handler, buf, sender) -> {
+		ClientPlayNetworking.registerGlobalReceiver(ZoomNetwork.ACKNOWLEDGE_MOD_PACKET_ID, (client, handler, buf, sender) -> {
 			boolean restricting = !buf.readBoolean();
 			client.execute(() -> {
-				ZoomPackets.checkRestrictions();
+				ZoomNetwork.checkRestrictions();
 				if (restricting) {
-					if (ZoomPackets.getAcknowledgement().equals(ZoomPackets.Acknowledgement.HAS_RESTRICTIONS)) {
+					if (ZoomNetwork.getAcknowledgement().equals(ZoomNetwork.Acknowledgement.HAS_RESTRICTIONS)) {
 						ZoomUtils.LOGGER.info("[Mio Zoomer] This server acknowledges the mod and has established some restrictions");
-						ZoomPackets.sendToast(client, Text.translatable("toast.mio_zoomer.acknowledge_mod_restrictions"));
+						ZoomNetwork.sendToast(client, Text.translatable("toast.mio_zoomer.acknowledge_mod_restrictions"));
 					}
 				} else {
-					if (ZoomPackets.getAcknowledgement().equals(ZoomPackets.Acknowledgement.HAS_NO_RESTRICTIONS)) {
+					if (ZoomNetwork.getAcknowledgement().equals(ZoomNetwork.Acknowledgement.HAS_NO_RESTRICTIONS)) {
 						ZoomUtils.LOGGER.info("[Mio Zoomer] This server acknowledges the mod and establishes no restrictions");
-						ZoomPackets.sendToast(client, Text.translatable("toast.mio_zoomer.acknowledge_mod"));
+						ZoomNetwork.sendToast(client, Text.translatable("toast.mio_zoomer.acknowledge_mod"));
 					}
 				}
 			});
@@ -104,7 +104,7 @@ public class ZoomPacketsFabric {
 		/*  The "Force Spyglass" packet,
 			This packet lets the server to impose a spyglass restriction
 			Supported since Mio Zoomer 5.0.0-beta.4 (1.18.2) */
-		ClientPlayNetworking.registerGlobalReceiver(ZoomPackets.FORCE_SPYGLASS_PACKET_ID, (client, handler, buf, sender) -> {
+		ClientPlayNetworking.registerGlobalReceiver(ZoomNetwork.FORCE_SPYGLASS_PACKET_ID, (client, handler, buf, sender) -> {
 			boolean requireItem = buf.readBoolean();
 			boolean replaceZoom = buf.readBoolean();
 			client.execute(() -> {
@@ -113,9 +113,9 @@ public class ZoomPacketsFabric {
 				MioZoomerConfigManager.CONFIG.features.spyglass_dependency.setOverride(requireItem
 					? (replaceZoom ? ConfigEnums.SpyglassDependency.BOTH : ConfigEnums.SpyglassDependency.REQUIRE_ITEM)
 					: (replaceZoom ? ConfigEnums.SpyglassDependency.REPLACE_ZOOM : null));
-				ZoomPackets.spyglassDependency = true;
+				ZoomNetwork.spyglassDependency = true;
 
-				ZoomPackets.checkRestrictions();
+				ZoomNetwork.checkRestrictions();
 			});
 		});
 
@@ -123,12 +123,12 @@ public class ZoomPacketsFabric {
 			This packet will let the server restrict the mod to spyglass-only usage
 			Not supported yet!
 			Arguments: probably some, we'll see */
-		ClientPlayNetworking.registerGlobalReceiver(ZoomPackets.FORCE_SPYGLASS_OVERLAY_PACKET_ID, (client, handler, buf, sender) -> {
+		ClientPlayNetworking.registerGlobalReceiver(ZoomNetwork.FORCE_SPYGLASS_OVERLAY_PACKET_ID, (client, handler, buf, sender) -> {
 			client.execute(() -> {
 				ZoomUtils.LOGGER.info(String.format("[Mio Zoomer] This server has imposed a spyglass overlay on the zoom"));
 				MioZoomerConfigManager.CONFIG.features.zoom_overlay.setOverride(ConfigEnums.ZoomOverlays.SPYGLASS);
-				ZoomPackets.spyglassOverlay = true;
-				ZoomPackets.checkRestrictions();
+				ZoomNetwork.spyglassOverlay = true;
+				ZoomNetwork.checkRestrictions();
 			});
 		});
 
@@ -154,8 +154,8 @@ public class ZoomPacketsFabric {
 		*/
 
 		ClientPlayConnectionEvents.DISCONNECT.register((handler, client) -> {
-			if (ZoomPackets.hasRestrictions) {
-				ZoomPackets.resetPacketSignals();
+			if (ZoomNetwork.hasRestrictions) {
+				ZoomNetwork.resetPacketSignals();
 			}
 		});
 	}

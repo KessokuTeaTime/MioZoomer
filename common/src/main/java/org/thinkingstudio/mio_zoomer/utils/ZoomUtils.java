@@ -7,7 +7,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import org.thinkingstudio.mio_zoomer.key_binds.ZoomKeyBinds;
-import org.thinkingstudio.mio_zoomer.packets.ZoomPackets;
+import org.thinkingstudio.mio_zoomer.network.ZoomNetwork;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.option.KeyBind;
 import net.minecraft.client.toast.SystemToast;
@@ -43,7 +43,7 @@ public class ZoomUtils {
 	// The method used for changing the zoom divisor, used by zoom scrolling and the key binds
 	public static void changeZoomDivisor(boolean increase) {
 		//If the zoom is disabled, don't allow for zoom scrolling
-		if (ZoomPackets.getDisableZoom()) return;
+		if (ZoomNetwork.getDisableZoom()) return;
 
 		double zoomDivisor = MioZoomerConfigManager.CONFIG.values.zoom_divisor.value();
 		double minimumZoomDivisor = MioZoomerConfigManager.CONFIG.values.minimum_zoom_divisor.value();
@@ -51,9 +51,9 @@ public class ZoomUtils {
 		int upperScrollStep = MioZoomerConfigManager.CONFIG.values.upper_scroll_steps.value();
 		int lowerScrollStep = MioZoomerConfigManager.CONFIG.values.lower_scroll_steps.value();
 
-		if (ZoomPackets.getForceZoomDivisors()) {
-			minimumZoomDivisor = Math.max(minimumZoomDivisor, ZoomPackets.getMinimumZoomDivisor());
-			maximumZoomDivisor = Math.min(maximumZoomDivisor, ZoomPackets.getMaximumZoomDivisor());
+		if (ZoomNetwork.getForceZoomDivisors()) {
+			minimumZoomDivisor = Math.max(minimumZoomDivisor, ZoomNetwork.getMinimumZoomDivisor());
+			maximumZoomDivisor = Math.min(maximumZoomDivisor, ZoomNetwork.getMaximumZoomDivisor());
 		}
 
 		zoomStep = increase ? Math.min(zoomStep + 1, upperScrollStep) :  Math.max(zoomStep - 1, -lowerScrollStep);
@@ -69,7 +69,7 @@ public class ZoomUtils {
 
 	// The method used by both the "Reset Zoom" keybind and the "Reset Zoom With Mouse" tweak
 	public static void resetZoomDivisor(boolean userPrompted) {
-		if (userPrompted && ZoomPackets.getDisableZoom()) return;
+		if (userPrompted && ZoomNetwork.getDisableZoom()) return;
 		if (!userPrompted && !MioZoomerConfigManager.CONFIG.tweaks.forget_zoom_divisor.value()) return;
 
 		ZOOMER_ZOOM.resetZoomDivisor();

@@ -7,7 +7,7 @@ import org.thinkingstudio.mio_zoomer.config.MioZoomerConfigManager;
 import org.thinkingstudio.mio_zoomer.config.screen.MioZoomerConfigScreen;
 import org.thinkingstudio.mio_zoomer.key_binds.ZoomKeyBinds;
 
-// This class is responsible for registering the commands and packets
+// This class is responsible for registering the commands and network
 public class MioZoomerClientMod {
 	public static final String MODID = "mio_zoomer";
 
