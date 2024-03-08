@@ -24,7 +24,7 @@ import org.thinkingstudio.zoomerlibrary.api.transitions.SmoothTransitionMode;
 // The class that contains most of the logic behind the zoom itself
 public class ZoomUtils {
 	// The logger, used everywhere to print messages to the console
-	public static final Logger LOGGER = LoggerFactory.getLogger("Ok Zoomer");
+	public static final Logger LOGGER = LoggerFactory.getLogger("Mio Zoomer");
 
 	public static final ZoomInstance ZOOMER_ZOOM = new ZoomInstance(
 		new Identifier("mio_zoomer:zoom"),
@@ -88,18 +88,18 @@ public class ZoomUtils {
 		if (ZoomKeyBinds.ZOOM_KEY.isDefault()) {
 			if (client.options.saveToolbarActivatorKey.isDefault()) {
 				if (userPrompted) {
-					ZoomUtils.LOGGER.info("[Ok Zoomer] The \"Save Toolbar Activator\" keybind was occupying C! Unbinding...");
+					ZoomUtils.LOGGER.info("[Mio Zoomer] The \"Save Toolbar Activator\" keybind was occupying C! Unbinding...");
 					client.getToastManager().add(SystemToast.create(
 						client, SystemToast.Type.TUTORIAL_HINT, Text.translatable("toast.mio_zoomer.title"),
 						Text.translatable("toast.mio_zoomer.unbind_conflicting_key.success")));
 				} else {
-					ZoomUtils.LOGGER.info("[Ok Zoomer] The \"Save Toolbar Activator\" keybind was occupying C! Unbinding... This process won't be repeated until specified in the config.");
+					ZoomUtils.LOGGER.info("[Mio Zoomer] The \"Save Toolbar Activator\" keybind was occupying C! Unbinding... This process won't be repeated until specified in the config.");
 				}
 				client.options.saveToolbarActivatorKey.setBoundKey(InputUtil.UNKNOWN_KEY);
 				client.options.write();
 				KeyBind.updateBoundKeys();
 			} else {
-				ZoomUtils.LOGGER.info("[Ok Zoomer] No conflicts with the \"Save Toolbar Activator\" keybind were found!");
+				ZoomUtils.LOGGER.info("[Mio Zoomer] No conflicts with the \"Save Toolbar Activator\" keybind were found!");
 				if (userPrompted) {
 					client.getToastManager().add(SystemToast.create(
 						client, SystemToast.Type.TUTORIAL_HINT, Text.translatable("toast.mio_zoomer.title"),

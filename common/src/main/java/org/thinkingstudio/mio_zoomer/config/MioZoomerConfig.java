@@ -77,7 +77,7 @@ public class MioZoomerConfig extends ReflectiveConfig {
 		@Comment("""
 			Determines how the zoom will depend on the spyglass.
 			"REQUIRE_ITEM" will make zooming require a spyglass.
-			"REPLACE_ZOOM" will replace spyglass's zoom with Ok Zoomer's zoom.
+			"REPLACE_ZOOM" will replace spyglass's zoom with Mio Zoomer's zoom.
 			"BOTH" will apply both options at the same time.
 			The "REQUIRE_ITEM" option is configurable through the mio_zoomer:zoom_dependencies item tag.
 			""")
@@ -151,7 +151,7 @@ public class MioZoomerConfig extends ReflectiveConfig {
 		public final TrackedValue<Boolean> unbind_conflicting_key = this.value(true);
 
 		@WidgetSize(Size.HALF)
-		@Comment("If enabled, the spyglass overlay texture is used instead of Ok Zoomer's overlay texture.")
+		@Comment("If enabled, the spyglass overlay texture is used instead of Mio Zoomer's overlay texture.")
 		public final TrackedValue<Boolean> use_spyglass_texture = this.value(false);
 
 		@WidgetSize(Size.HALF)
