@@ -7,9 +7,9 @@ dependencies {
     // Do NOT use other classes from fabric loader
     modImplementation "net.fabricmc:fabric-loader:${rootProject.fabric_loader_version}"
     modApi "dev.architectury:architectury:${rootProject.architectury_version}"
-	modApi("curse.maven:azusaconfig-970148:5078170")
-	modApi("maven.modrinth:zoomerlibrary:${rootProject.zoomerlibrary_version}-fabric")
-	modImplementation("maven.modrinth:obsidianui:${rootProject.obsidianui_version}-fabric")
+	modApi "maven.modrinth:azusaconfig:${rootProject.azusaconfig_version}-fabric"
+	modApi "maven.modrinth:zoomerlibrary:${rootProject.zoomerlibrary_version}-fabric"
+	modImplementation "maven.modrinth:obsidianui:${rootProject.obsidianui_version}-fabric"
 
 	compileOnly(annotationProcessor("io.github.llamalad7:mixinextras-common:0.3.5"))
 

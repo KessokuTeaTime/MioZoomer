@@ -26,7 +26,7 @@ configurations {
 dependencies {
     forge "net.minecraftforge:forge:${rootProject.forge_version}"
     modApi "dev.architectury:architectury-forge:${rootProject.architectury_version}"
-	modApi "curse.maven:azusaconfig-970148:5078177"
+	modApi "maven.modrinth:azusaconfig:${rootProject.azusaconfig_version}-forge"
 	modApi "maven.modrinth:zoomerlibrary:${rootProject.zoomerlibrary_version}-forge"
 	modImplementation "maven.modrinth:obsidianui:${rootProject.obsidianui_version}-forge"
 
