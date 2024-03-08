@@ -297,8 +297,16 @@ public class MioZoomerConfigScreen extends SpruceScreen {
 			}),
 			Map.entry(MioZoomerConfigManager.CONFIG.values.minimum_zoom_divisor, 1.0D),
 			Map.entry(MioZoomerConfigManager.CONFIG.values.maximum_zoom_divisor, 50.0D),
-			Map.entry(MioZoomerConfigManager.CONFIG.values.upper_scroll_steps, preset == ZoomPresets.SPYGLASS ? 16 : 20),
-			Map.entry(MioZoomerConfigManager.CONFIG.values.lower_scroll_steps, preset == ZoomPresets.SPYGLASS ? 8 : 4),
+			Map.entry(MioZoomerConfigManager.CONFIG.values.upper_scroll_steps, switch (preset) {
+				case PERSISTENT -> 38;
+				case SPYGLASS -> 16;
+				default -> 20;
+			}),
+			Map.entry(MioZoomerConfigManager.CONFIG.values.lower_scroll_steps, switch (preset) {
+				case PERSISTENT -> 0;
+				case SPYGLASS -> 8;
+				default -> 4;
+			}),
 			Map.entry(MioZoomerConfigManager.CONFIG.values.smooth_multiplier, preset == ZoomPresets.SPYGLASS ? 0.5D : 0.75D),
 			Map.entry(MioZoomerConfigManager.CONFIG.values.cinematic_multiplier, 4.0D),
 			Map.entry(MioZoomerConfigManager.CONFIG.values.minimum_linear_step, 0.125D),
