@@ -16,10 +16,10 @@
   "environment": "*",
   "entrypoints": {
     "client": [
-			"org.thinkingstudio.mio_zoomer.fabric.MioZoomerModFabric"
+			"org.thinkingstudio.mio_zoomer.fabric.MioZoomerModFabric::onInitializeClient"
     ],
 		"preLaunch": [
-			"org.thinkingstudio.mio_zoomer.fabric.MioZoomerPreLaunchModFabric"
+			"org.thinkingstudio.mio_zoomer.fabric.MioZoomerModFabric::onPreLaunch"
 		]
   },
   "depends": {

@@ -37,6 +37,7 @@ public class MioZoomerModForge {
 			ZoomEventsForge.registerClient();
 
 			// Register the zoom-controlling network
+			// TODO: use UniNetworking system
 			ZoomNetworkForge.registerPackets();
 		});
 	}
