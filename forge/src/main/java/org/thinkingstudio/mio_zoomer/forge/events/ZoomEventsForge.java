@@ -20,10 +20,16 @@ public class ZoomEventsForge {
 	public static void registerAllKeybinds(RegisterKeyMappingsEvent event) {
 		event.register(ZoomKeyBinds.ZOOM_KEY);
 		if (ZoomKeyBinds.areExtraKeyBindsEnabled()) {
-			event.register(ZoomKeyBinds.DECREASE_ZOOM_KEY);
-			event.register(ZoomKeyBinds.INCREASE_ZOOM_KEY);
-			event.register(ZoomKeyBinds.RESET_ZOOM_KEY);
-		}
+            if (ZoomKeyBinds.DECREASE_ZOOM_KEY != null) {
+                event.register(ZoomKeyBinds.DECREASE_ZOOM_KEY);
+            }
+            if (ZoomKeyBinds.INCREASE_ZOOM_KEY != null) {
+                event.register(ZoomKeyBinds.INCREASE_ZOOM_KEY);
+            }
+            if (ZoomKeyBinds.RESET_ZOOM_KEY != null) {
+                event.register(ZoomKeyBinds.RESET_ZOOM_KEY);
+            }
+        }
 	}
 
 	public static void registerClientPlayerNetwork(ClientPlayerNetworkEvent.LoggingOut event) {

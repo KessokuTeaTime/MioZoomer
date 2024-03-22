@@ -18,10 +18,16 @@ public class ZoomEventsFabric {
 	public static void registerAllKeyBinds() {
 		KeyBindingHelper.registerKeyBinding(ZoomKeyBinds.ZOOM_KEY);
 		if (ZoomKeyBinds.areExtraKeyBindsEnabled()) {
-			KeyBindingHelper.registerKeyBinding(ZoomKeyBinds.DECREASE_ZOOM_KEY);
-			KeyBindingHelper.registerKeyBinding(ZoomKeyBinds.INCREASE_ZOOM_KEY);
-			KeyBindingHelper.registerKeyBinding(ZoomKeyBinds.RESET_ZOOM_KEY);
-		}
+            if (ZoomKeyBinds.DECREASE_ZOOM_KEY != null) {
+                KeyBindingHelper.registerKeyBinding(ZoomKeyBinds.DECREASE_ZOOM_KEY);
+            }
+            if (ZoomKeyBinds.INCREASE_ZOOM_KEY != null) {
+                KeyBindingHelper.registerKeyBinding(ZoomKeyBinds.INCREASE_ZOOM_KEY);
+            }
+            if (ZoomKeyBinds.RESET_ZOOM_KEY != null) {
+                KeyBindingHelper.registerKeyBinding(ZoomKeyBinds.RESET_ZOOM_KEY);
+            }
+        }
 	}
 
 	public static void registerClientPlayerNetwork() {
