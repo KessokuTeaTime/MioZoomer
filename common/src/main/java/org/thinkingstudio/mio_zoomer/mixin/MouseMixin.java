@@ -50,7 +50,7 @@ public abstract class MouseMixin {
 		cancellable = true,
 		locals = LocalCapture.CAPTURE_FAILHARD
 	)
-	private void zoomerOnMouseButton(long window, int button, int action, int modifiers, CallbackInfo ci, int modifiers1, boolean bl, int i) {
+	private void zoomerOnMouseButton(long window, int button, int action, int modifiers, CallbackInfo ci, boolean bl, int i) {
 		if (MioZoomerConfigManager.CONFIG.features.zoom_scrolling.value()) {
 			if (MioZoomerConfigManager.CONFIG.features.zoom_mode.value().equals(ZoomModes.PERSISTENT)) {
 				if (!ZoomKeyBinds.ZOOM_KEY.isPressed()) return;
