@@ -19,7 +19,7 @@ import org.thinkingstudio.zoomerlibrary.api.transitions.SmoothTransitionMode;
 public class MioZoomerConfigManager {
 	public static final MioZoomerConfig CONFIG = AzusaConfig.create(MioZoomerClientMod.MODID, "config", MioZoomerConfig.class);
 
-	public MioZoomerConfigManager() {
+	public static void getInstance() {
 		// On initialization, configure our zoom instance
 		MioZoomerConfigManager.configureZoomInstance();
 

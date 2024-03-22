@@ -15,7 +15,6 @@ import net.minecraftforge.network.NetworkConstants;
 import org.thinkingstudio.mio_zoomer.MioZoomerClientMod;
 import org.thinkingstudio.mio_zoomer.MioZoomerPreLaunchMod;
 import org.thinkingstudio.mio_zoomer.forge.events.ZoomEventsForge;
-import org.thinkingstudio.mio_zoomer.forge.network.ZoomNetworkForge;
 
 @Mod(MioZoomerClientMod.MODID)
 public class MioZoomerModForge {
@@ -35,10 +34,6 @@ public class MioZoomerModForge {
 		event.enqueueWork(() -> {
 			MioZoomerClientMod.onInitClient();
 			ZoomEventsForge.registerClient();
-
-			// Register the zoom-controlling network
-			// TODO: use UniNetworking system
-			ZoomNetworkForge.registerPackets();
 		});
 	}
 
